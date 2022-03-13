@@ -215,7 +215,6 @@ class TestSenaryolari extends React.Component {
 
         return (
             <div>
-              <Tost/>
                 <div className="policy" style={{ border: "1px ridge", height: '100px' ,zIndex: 10000,overflow: "visible"}}>
                     <Container style={{ margin: 10, maxWidth: '100%' ,zIndex: 10000,overflow: "visible"}}><Row><Col sm={2}><div>
                         <Form.Label>Modül Adı :</Form.Label>

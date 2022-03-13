@@ -4,7 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestAdvance.Business.Concrete;
+using TestAdvance.Business.Interfaces;
 using TestAdvance.DataAccess.DataContexts;
+using TestAdvance.DataAccess.DTOs;
+using TestAdvance.DataAccess.DTOs.ModulDtos;
+using TestAdvance.DataAccess.DTOs.TestCaseDtos;
+using TestAdvance.DataAccess.DTOs.TestRunDtos;
+using TestAdvance.DataAccess.Repository.Abstract;
 using TestAdvance.DataAccess.Repository.Concrete;
 using TestAdvance.Entities.Concrete;
 
@@ -17,10 +24,14 @@ namespace TestAdvance.Controllers
     public class HomeController : ControllerBase
     {
         public TestContext _context;
+        public AdvanceContext _acontext;
         private readonly ILogger<HomeController> _logger;
+        private readonly ITestCaseService _testCaseService;
+        private readonly ITestRunService _testRunService;
 
-        public HomeController(TestContext context, ILogger<HomeController> logger)
+        public HomeController(TestContext context, ITestRunService testRunService, ILogger<HomeController> logger)
         {
+            _testRunService = testRunService;
             _context = context;
             _logger = logger;
         }
@@ -30,12 +41,10 @@ namespace TestAdvance.Controllers
         [Route("GetAllTestCases")]
         public async Task<IActionResult> GetAllTestCases()
         {
-            var result = _context.TestCases.ToList();
 
-            EfRepositoryBase<TestCase> efRepository = new EfRepositoryBase<TestCase>(_context);
-            var result2=efRepository.GetFromQuery(a=>a.Id!=0);
+            var result= _testCaseService.GetAllAsync(a => a.Id != 0);
 
-            return Ok(result2);
+            return Ok(result);
         }
 
         // GET api/<HomeController>/5
@@ -43,7 +52,7 @@ namespace TestAdvance.Controllers
         [Route("GetTestCase")]
         public async Task<IActionResult> GetTestCase(int id)
         {
-            var result=_context.TestCases.Where(a=>a.Id==id).ToList();
+            var result = _testCaseService.GetAllAsync(a => a.Id == id);
 
             return Ok(result);
         }
@@ -51,13 +60,26 @@ namespace TestAdvance.Controllers
         // POST api/<HomeController>
         [HttpPost]
         [Route("InsertTestCase")]
-        public async Task<IActionResult> InsertTestCase(TestCase testCase)
+        public async Task<IActionResult> InsertTestCase(TestCaseAddDto testCaseDto)
         {
             try
             {
+                TestCase testCase = new TestCase()
+                {
+                    TestCaseAdi = testCaseDto.TestCaseAdi,
+                    SuiteId = testCaseDto.SuiteId,
+                    SenaryoId = testCaseDto.SenaryoId,
+                    CreatedDate = testCaseDto.CreatedDate,
+                    CreatedBy = testCaseDto.CreatedBy,
+                    IsActive= testCaseDto.IsActive
+                };
+
+
                 _context.TestCases.Add(testCase);
                 _context.SaveChanges();
+
                 return Ok(StatusCode(200));
+
             } catch(Exception ex)
             {
                 throw ex;
@@ -66,13 +88,82 @@ namespace TestAdvance.Controllers
             
         }
 
+
         [HttpPost]
-        [Route("InsertTestSuite")]
-        public async Task<IActionResult> InsertTestSuite(TestSuite testSuite)
+        [Route("InsertTestRun")]
+        public async Task<IActionResult> InsertTestRun(TestRunAddDto testRunAddDto)
         {
             try
             {
-                _context.TestSuites.Add(testSuite);
+                TestRun testRun = new TestRun()
+                {
+                    TestCaseId= testRunAddDto.TestCaseId,
+                    TestResultId= testRunAddDto.TestResultId,
+                    RunCode = testRunAddDto.RunCode
+                    
+                };
+
+
+                _context.TestRuns.Add(testRun);
+                _context.SaveChanges();
+
+                return Ok(StatusCode(200));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+        [HttpPost]
+        [Route("InsertTestRunDetail")]
+        public async Task<IActionResult> InsertTestRunDetail(TestRunDetailAddDto testRunDetailAddDto)
+        {
+            try
+            {
+                TestRunDetail testRunDetail = new TestRunDetail()
+                {
+                    TestRunId=testRunDetailAddDto.TestRunId,
+                    RunCode = testRunDetailAddDto.RunCode,
+                    Tags = testRunDetailAddDto.Tags,
+                    StartedTime = testRunDetailAddDto.StartedTime,
+                    FinishedTime = testRunDetailAddDto.FinishedTime,
+                    TriggerType = testRunDetailAddDto.TriggerType,
+                    ReportPath = testRunDetailAddDto.ReportPath
+                };
+
+
+                _context.TestRunDetails.Add(testRunDetail);
+                _context.SaveChanges();
+
+                return Ok(StatusCode(200));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+        [HttpPost]
+        [Route("InsertTestSuite")]
+        public async Task<IActionResult> InsertTestSuite(TestSuiteAddDto testSuiteDto)
+        {
+            try
+            {
+
+                TestSuite suite = new TestSuite()
+                {
+                    ModulId= testSuiteDto.ModulId,
+                    SuiteAdi= testSuiteDto.SuiteAdi
+                };
+
+                _context.TestSuites.Add(suite);
                 _context.SaveChanges();
                 return Ok(StatusCode(200));
             }
@@ -86,10 +177,17 @@ namespace TestAdvance.Controllers
 
         [HttpPost]
         [Route("InsertModul")]
-        public async Task<IActionResult> InsertModul(Modul modul)
+        public async Task<IActionResult> InsertModul(ModulAddDto modulDto)
         {
             try
             {
+                Modul modul = new Modul()
+                {
+                    Email = modulDto.Email,
+                    ModulAdi = modulDto.ModulAdi,
+                    SorumluPersonel = modulDto.SorumluPersonel
+                };
+
                 _context.Moduls.Add(modul);
                 _context.SaveChanges();
                 return Ok(StatusCode(200));
@@ -107,7 +205,10 @@ namespace TestAdvance.Controllers
         [Route("GetAllRunResults")]
         public async Task<IActionResult> GetAllRunResults()
         {
-            var result = _context.TestRuns.ToList();
+            
+
+            var result = _testRunService.GetAllAsync(x => x.Id > 0);
+
 
             return Ok(result);
         }

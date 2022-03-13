@@ -20,6 +20,6 @@ namespace TestAdvance.DataAccess.DataContexts
         public DbSet<TestSuite> TestSuites { get; set; }
         public DbSet<Modul> Moduls { get; set; }
         public DbSet<TestRun> TestRuns { get; set; }
-        public DbSet<TestRunDetails> TestRunDetails { get; set; }
+        public DbSet<TestRunDetail> TestRunDetails { get; set; }
     }
 }

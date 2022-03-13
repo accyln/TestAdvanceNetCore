@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -9,9 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TestAdvance.Business.Concrete;
+using TestAdvance.Business.DiContainer;
+using TestAdvance.Business.Interfaces;
 using TestAdvance.Data;
 using TestAdvance.DataAccess.DataContexts;
 using TestAdvance.Models;
+using TestAdvance.Services.JwtService;
 
 namespace TestAdvance
 {
@@ -27,6 +32,12 @@ namespace TestAdvance
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddContainerWithDependencies();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
+            services.AddSession();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "TestAdvance", Version = "v1" });
@@ -36,6 +47,7 @@ namespace TestAdvance
             services.AddDbContext<TestContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AdvanceContext>();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -54,7 +66,10 @@ namespace TestAdvance
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-
+            services.AddControllers().AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -85,6 +100,7 @@ namespace TestAdvance
 
             app.UseRouting();
 
+            app.UseSession();
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();

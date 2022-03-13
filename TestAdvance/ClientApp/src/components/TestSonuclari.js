@@ -116,7 +116,6 @@ class TestSonuclari extends Component {
         spinner
         text='Bilgiler alınıyor lütfen bekleyiniz...'>
                 <Container style={{ marginTop: 20, maxWidth: '100%' }}>
-                    <Test/>
                         <Row>
                             <Col md={2} style={{ width:10}}>
                                 <Form inline>

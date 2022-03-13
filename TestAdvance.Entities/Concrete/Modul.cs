@@ -14,6 +14,8 @@ namespace TestAdvance.Entities.Concrete
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string ModulAdi { get; set; }
+        public string Email { get; set; }
+        public string SorumluPersonel { get; set; }
         List<TestSuite> suites { get; set; }
 
     }

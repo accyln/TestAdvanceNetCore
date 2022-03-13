@@ -13,9 +13,4 @@
     <ProjectReference Include="..\TestAdvance.Entities\TestAdvance.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\Abstract\" />
-    <Folder Include="Repository\Concrete\" />
-  </ItemGroup>
-
 </Project>

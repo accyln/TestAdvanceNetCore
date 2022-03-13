@@ -20,7 +20,6 @@ export default class App extends Component {
     return (
      
       <Layout>
-        <Counter/>
         <Route exact path='/' component={Home} />
         <Route path='/TestSonuclari' component={TestSonuclari} />
         <Route path='/TestSenaryolari' component={TestSenaryolari} />

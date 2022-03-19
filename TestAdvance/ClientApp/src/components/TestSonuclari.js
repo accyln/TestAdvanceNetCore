@@ -64,7 +64,7 @@ class TestSonuclari extends Component {
     //   }
    
     getApiList() {
-        fetch('api/Home/GetAllRunResults').then(response => response.json())
+        fetch('api/TestRun/GetAllTestRuns').then(response => response.json())
             .then(
                 data => {
                     if (data) {

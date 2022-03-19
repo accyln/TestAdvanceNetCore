@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestAdvance.Business.Interfaces;
 using TestAdvance.DataAccess.DataContexts;
+using TestAdvance.DataAccess.DTOs;
+using TestAdvance.Entities.Concrete;
 
 namespace TestAdvance.Controllers
 {
@@ -17,11 +20,13 @@ namespace TestAdvance.Controllers
 
         private readonly ILogger<TestSuiteController> _logger;
         private readonly ITestSuiteService _testSuiteService;
+        private readonly IMapper _mapper;
 
-        public TestSuiteController(ITestSuiteService testSuiteService, ILogger<TestSuiteController> logger)
+        public TestSuiteController(ITestSuiteService testSuiteService, ILogger<TestSuiteController> logger,IMapper mapper)
         {
             _logger = logger;
             _testSuiteService = testSuiteService;
+            _mapper = mapper;
         }
 
 
@@ -33,6 +38,26 @@ namespace TestAdvance.Controllers
             var result = await _testSuiteService.GetAllAsync();
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("InsertTestSuite")]
+        public async Task<IActionResult> InsertTestSuite(TestSuiteAddDto testSuiteDto)
+        {
+            try
+            {
+
+                await _testSuiteService.AddAsync(_mapper.Map<TestSuite>(testSuiteDto));
+
+
+                return Created("",testSuiteDto);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
 
     }

@@ -11,3 +11,16 @@ C:\Acc\workspace\Git\TestAdvance\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\
 C:\Acc\workspace\Git\TestAdvance\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.csproj.CopyComplete
 C:\Acc\workspace\Git\TestAdvance\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.dll
 C:\Acc\workspace\Git\TestAdvance\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.pdb
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\bin\Debug\netcoreapp3.1\TestAdvance.DataAccess.deps.json
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\bin\Debug\netcoreapp3.1\TestAdvance.DataAccess.dll
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\bin\Debug\netcoreapp3.1\TestAdvance.DataAccess.pdb
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\bin\Debug\netcoreapp3.1\TestAdvance.Entities.dll
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\bin\Debug\netcoreapp3.1\TestAdvance.Entities.pdb
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.csproj.AssemblyReference.cache
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.AssemblyInfoInputs.cache
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.AssemblyInfo.cs
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.csproj.CoreCompileInputs.cache
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.csproj.CopyComplete
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.dll
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.DataAccess\obj\Debug\netcoreapp3.1\TestAdvance.DataAccess.pdb

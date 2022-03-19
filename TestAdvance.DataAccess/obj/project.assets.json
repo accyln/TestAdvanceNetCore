@@ -5623,11 +5623,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.DataAccess\\TestAdvance.DataAccess.csproj",
+      "projectUniqueName": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.DataAccess\\TestAdvance.DataAccess.csproj",
       "projectName": "TestAdvance.DataAccess",
-      "projectPath": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.DataAccess\\TestAdvance.DataAccess.csproj",
+      "projectPath": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.DataAccess\\TestAdvance.DataAccess.csproj",
       "packagesPath": "C:\\Users\\ahmet\\.nuget\\packages\\",
-      "outputPath": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.DataAccess\\obj\\",
+      "outputPath": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5647,8 +5647,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Entities\\TestAdvance.Entities.csproj": {
-              "projectPath": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Entities\\TestAdvance.Entities.csproj"
+            "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Entities\\TestAdvance.Entities.csproj": {
+              "projectPath": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Entities\\TestAdvance.Entities.csproj"
             }
           }
         }

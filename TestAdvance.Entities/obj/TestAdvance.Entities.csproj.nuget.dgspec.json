@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Entities\\TestAdvance.Entities.csproj": {}
+    "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Entities\\TestAdvance.Entities.csproj": {}
   },
   "projects": {
-    "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Entities\\TestAdvance.Entities.csproj": {
+    "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Entities\\TestAdvance.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Entities\\TestAdvance.Entities.csproj",
+        "projectUniqueName": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Entities\\TestAdvance.Entities.csproj",
         "projectName": "TestAdvance.Entities",
-        "projectPath": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Entities\\TestAdvance.Entities.csproj",
+        "projectPath": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Entities\\TestAdvance.Entities.csproj",
         "packagesPath": "C:\\Users\\ahmet\\.nuget\\packages\\",
-        "outputPath": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Entities\\obj\\",
+        "outputPath": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

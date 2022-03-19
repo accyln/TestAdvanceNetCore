@@ -48,7 +48,7 @@ namespace TestAdvance.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddToCategory(ModulAddDto modulAddDto)
+        public async Task<IActionResult> AddModul(ModulAddDto modulAddDto)
         {
             if (!ModelState.IsValid)
             {

@@ -8,3 +8,13 @@ C:\Acc\workspace\Git\TestAdvance\TestAdvance.Entities\obj\Debug\netcoreapp3.1\Te
 C:\Acc\workspace\Git\TestAdvance\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.csproj.CoreCompileInputs.cache
 C:\Acc\workspace\Git\TestAdvance\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.dll
 C:\Acc\workspace\Git\TestAdvance\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.pdb
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\bin\Debug\netcoreapp3.1\TestAdvance.Entities.deps.json
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\bin\Debug\netcoreapp3.1\TestAdvance.Entities.dll
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\bin\Debug\netcoreapp3.1\TestAdvance.Entities.pdb
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.csproj.AssemblyReference.cache
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.AssemblyInfoInputs.cache
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.AssemblyInfo.cs
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.csproj.CoreCompileInputs.cache
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.dll
+C:\Acc\workspace\Git\TestAdvaceGit\TestAdvance.Entities\obj\Debug\netcoreapp3.1\TestAdvance.Entities.pdb

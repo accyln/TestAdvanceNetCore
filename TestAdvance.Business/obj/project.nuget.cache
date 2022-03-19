@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tNny9yp05Ysczw/sQQ5iJwoF6SMOCohEJnTR1Ddxp+dJaTbf6m+r3fmJWtkGsngUpRLmEW/pwYIhmRa32CjDdA==",
+  "dgSpecHash": "lQTxMICZgLyyPhN9KbwfhyO5o7JcX/O3iv6pJyIDQxMNXUm0pvt43/QQWYtHVzhOxsBnmTAbIcz4X7bXJDPRrg==",
   "success": true,
-  "projectFilePath": "C:\\Acc\\workspace\\Git\\TestAdvance\\TestAdvance.Business\\TestAdvance.Business.csproj",
+  "projectFilePath": "C:\\Acc\\workspace\\Git\\TestAdvaceGit\\TestAdvance.Business\\TestAdvance.Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ahmet\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\ahmet\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.1\\microsoft.bcl.hashcode.1.1.1.nupkg.sha512",

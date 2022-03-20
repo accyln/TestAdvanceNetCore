@@ -159,9 +159,9 @@ class TestSonuclari extends Component {
                                         return (
                                             <tr>
                                                 <td style={{ wordBreak: 'break-all' }}>{item.testRunId}</td>
-                                                <td style={{ wordBreak: 'break-all' }}>{item.runCode}</td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.runCode+" "}<Button size='sm'>Detay</Button></td>
 {/*                                                 <td style={{ wordBreak: 'break-all' }}><span class={this.getBadgeColor(item.suiteSonucu)}>{item.suiteSonucu}</span></td> */}
-                                                <td style={{ wordBreak: 'break-all' }}>{item.triggerType}</td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.triggerType}<input type="submit" value="Submit" class="btn btn-sm btn-outline-primary py-0" style={{fontSize:"0.6em"}}></input></td>
                                                 <td style={{ wordBreak: 'break-all' }}>{item.startedTime}</td>
                                                 {/* <td style={{ wordBreak: 'break-all' }}><span class="badge badge-success text-uppercase">{item.pass}</span></td>
                                                 <td style={{ wordBreak: 'break-all' }}><span class="badge badge-danger text-uppercase">{item.fail}</span></td>

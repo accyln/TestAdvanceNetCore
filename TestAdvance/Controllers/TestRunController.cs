@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestAdvance.Business.Interfaces;
+using TestAdvance.DataAccess.DataContexts;
 using TestAdvance.DataAccess.DTOs.TestRunDtos;
 using TestAdvance.Entities.Concrete;
 
@@ -18,13 +19,17 @@ namespace TestAdvance.Controllers
     {
         private readonly ILogger<TestRunController> _logger;
         private readonly ITestRunService _testRunService;
+        private readonly ITestRunDetailService _testRunDetailService;
         private readonly IMapper _mapper;
+        AdvanceContext dbContext;
 
-        public TestRunController(ITestRunService testRunService, ILogger<TestRunController> logger,IMapper mapper)
+        public TestRunController(ITestRunService testRunService,ITestRunDetailService testRunDetailService, ILogger<TestRunController> logger,IMapper mapper, AdvanceContext dbContext)
         {
             _logger = logger;
             _testRunService = testRunService;
+            _testRunDetailService = testRunDetailService;
             _mapper = mapper;
+            this.dbContext = dbContext;
         }
 
 
@@ -59,36 +64,35 @@ namespace TestAdvance.Controllers
 
         }
 
-        //[HttpPost]
-        //[Route("InsertTestRunDetail")]
-        //public async Task<IActionResult> InsertTestRunDetail(TestRunDetailAddDto testRunDetailAddDto)
-        //{
-        //    try
-        //    {
-        //        TestRunDetail testRunDetail = new TestRunDetail()
-        //        {
-        //            TestRunId = testRunDetailAddDto.TestRunId,
-        //            RunCode = testRunDetailAddDto.RunCode,
-        //            Tags = testRunDetailAddDto.Tags,
-        //            StartedTime = testRunDetailAddDto.StartedTime,
-        //            FinishedTime = testRunDetailAddDto.FinishedTime,
-        //            TriggerType = testRunDetailAddDto.TriggerType,
-        //            ReportPath = testRunDetailAddDto.ReportPath
-        //        };
+        [HttpPost]
+        [Route("InsertTestRunDetail")]
+        public async Task<IActionResult> InsertTestRunDetail(TestRunDetailAddDto testRunDetailAddDto)
+        {
+            try
+            {
+
+                await _testRunDetailService.AddAsync(_mapper.Map<TestRunDetail>(testRunDetailAddDto));
 
 
-        //        _context.TestRunDetails.Add(testRunDetail);
-        //        _context.SaveChanges();
+                return Created("",testRunDetailAddDto);
 
-        //        return Ok(StatusCode(200));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
+            }
 
-        //    }
+        }
 
-        //}
+        [HttpGet]
+        [Route("GetTestResults")]
+        public async Task<IActionResult> GetTestResults()
+        {
+
+           var result= dbContext.TestResults.ToList();
+
+            return Ok(result);
+        }
     }
 }

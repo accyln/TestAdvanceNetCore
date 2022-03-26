@@ -4,9 +4,37 @@ import { Nav, Navbar } from 'react-bootstrap';
 import { NavMenu } from './NavMenu';
 import Button from 'reactstrap/lib/Button';
 import Sidebar from './Sidebar';
+import styled from 'styled-components';
+
+// component styles
+const Wrapper = styled.div`
+    @media (min-width: 700px) {
+        display: flex;
+        position: fixed;
+        height: calc(100% - 100px);
+        width: 100%;
+        flex: auto;
+        flex-direction: column;
+    }
+`;
+const Main = styled.main`
+    position: fixed;
+    height: calc(100% - 185px);
+    top: 60px;
+    overflow-y:scroll;
+    width: 100%;
+    padding: 1em;
+    @media (min-width: 700px) {
+        flex: 1;
+        margin-left: 260px;
+        height: calc(100% - 100px);
+        width: calc(100% - 260px);
+    }
+`;
+
 
 export class Layout extends Component {
-  static displayName = Layout.name;
+  static displayName = Layout.name; 
 
   render () {
     return (
@@ -36,7 +64,8 @@ export class Layout extends Component {
           
         </nav>
        
-       
+
+          <Wrapper>
         <Row>
             <Col sm={2}>
                 <div style={{height: "100vh",width:250}}>
@@ -47,12 +76,16 @@ export class Layout extends Component {
 
             <div style={{margin:25}}>
         <Container>
-            {this.props.children}
+
+              {this.props.children}
+
+
         </Container>
         </div>
         </Col>
         </Row>
-       
+        </Wrapper>
+
       </div>
     );
   }

@@ -29,19 +29,30 @@ namespace TestAdvance.Controllers
             var user = await _appUserService.CheckUserAsync(appUserLoginDto);
             if (user != null)
             {
-                return Created("", _jwtService.GenerateJwt(user));
+                return Created("",_jwtService.GenerateJwt(user).Token);
             }
-            return BadRequest("kullanıcı adı veya şifre hatalı");
+            return BadRequest("Kullanıcı adı veya şifre hatalı");
 
         }
 
         [HttpGet("[action]")]
-        [Authorize]
         public async Task<IActionResult> ActiveUser()
         {
             var user = await _appUserService.FindByNameAsync(User.Identity.Name);
 
             return Ok(new AppUserDto { Id = user.Id, Name = user.Name, SurName = user.SurName });
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetToken()
+        {
+            AppUserLoginDto userDto = new AppUserLoginDto() { UserName = "Admin", Password = "admin" };
+            var user = await _appUserService.CheckUserAsync(userDto);
+            if (user != null)
+            {
+                return Created("", "Bearer " + _jwtService.GenerateJwt(user).Token);
+            }
+            return BadRequest("Kullanıcı adı veya şifre hatalı");
         }
     }
 }

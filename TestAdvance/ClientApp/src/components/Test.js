@@ -12,7 +12,7 @@ class Test extends Component{
     render(){
         return(
             <div>
-           <Button onClick={()=>this.props.actions.getAuthToken()}>Call Auth Api</Button>
+           <Button onClick={()=>this.props.actions.login()}>Call Auth Api</Button>
             </div>
         )
     }
@@ -21,7 +21,7 @@ class Test extends Component{
 function mapDispatchToProps(dispatch){
     return {
         actions:{
-        getAuthToken:bindActionCreators(authAction.getAuthToken,dispatch)
+            login:bindActionCreators(authAction.login,dispatch)
     }
 }
 } 

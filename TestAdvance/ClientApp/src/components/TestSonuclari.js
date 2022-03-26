@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Accordion, Card, Row, Col, Table, FormControl, Form, Button,ButtonToolbar,Badge,Spinner } from 'react-bootstrap'
 import LoadingOverlay from 'react-loading-overlay';
-import Test from './Test';
+import { BasePage } from './base/basepage';
 
-class TestSonuclari extends Component {
+class TestSonuclari extends BasePage {
     displayName = TestSonuclari.name
 
     constructor(props) {
@@ -14,7 +14,7 @@ class TestSonuclari extends Component {
             after: {},
             searchText: '',
             filteredData: [],
-            regression: [],
+            testResults: [],
             loading:true,
             runModalShow:false
         };
@@ -26,6 +26,13 @@ class TestSonuclari extends Component {
         this.getApiList();
     }
 
+
+    test(){
+        const params = new URLSearchParams(window.location.search);
+        var url= window.location.href;
+        const fromQuery = params.get('returnUrl');
+        debugger;
+    }
     /* getBadgeColor(sonuc){
 
       if(sonuc.trim()=='Pass'){
@@ -64,14 +71,14 @@ class TestSonuclari extends Component {
     //   }
    
     getApiList() {
-        fetch('api/TestRun/GetAllTestRuns').then(response => response.json())
+        fetch('api/TestRun/GetTestResults').then(response=>response.json())
             .then(
                 data => {
                     if (data) {
                         this.setState({
                             ...this.state,
                             loading:false,
-                            regression: data,
+                            testResults: data,
                             filteredData: data
                         });
                     }
@@ -132,17 +139,22 @@ class TestSonuclari extends Component {
                                 }} /* style={{ float: 'right' }} */>
                                     Modül İşlemleri
                         </Button></Col>
-
+                        <input type="submit" value="Submit" class="btn btn-sm btn-outline-primary py-0" onClick={this.test} style={{fontSize:"0.6em"}}></input>
                         </Row>
             <Row style={{marginTop:10}}>
               <Col lg="12">
                             <Table className="table" striped bordered hover size="sm">
                                 <thead>
                                     <tr>
-                                        <th>Run ID</th>
-                                        <th>RunCode</th>
+                                        <th>Modül Adı</th>
+                                        <th>Suite Adı</th>
+                                        <th>Test Case Adı</th>
                                         <th>Trigger Type</th>
-                                        <th>Start Date</th>
+                                        <th>Test Start Date</th>
+                                        <th>Test Finish Date</th>
+                                        <th>Result</th>
+                                        <th>Report</th>
+                                        <th>Sorumlu</th>
                                         {/* <th>Kosulan Adet</th>
                                         <th>Pass</th>
                                         <th>Fail</th>
@@ -158,11 +170,14 @@ class TestSonuclari extends Component {
 
                                         return (
                                             <tr>
-                                                <td style={{ wordBreak: 'break-all' }}>{item.testRunId}</td>
-                                                <td style={{ wordBreak: 'break-all' }}>{item.runCode+" "}<Button size='sm'>Detay</Button></td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.modulAdi}</td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.suiteAdi}</td>
 {/*                                                 <td style={{ wordBreak: 'break-all' }}><span class={this.getBadgeColor(item.suiteSonucu)}>{item.suiteSonucu}</span></td> */}
-                                                <td style={{ wordBreak: 'break-all' }}>{item.triggerType}<input type="submit" value="Submit" class="btn btn-sm btn-outline-primary py-0" style={{fontSize:"0.6em"}}></input></td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.testCaseAdi}</td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.triggerType}</td>
                                                 <td style={{ wordBreak: 'break-all' }}>{item.startedTime}</td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.finishedTime}</td>
+                                                <td style={{ wordBreak: 'break-all' }}>{item.result}</td>
                                                 {/* <td style={{ wordBreak: 'break-all' }}><span class="badge badge-success text-uppercase">{item.pass}</span></td>
                                                 <td style={{ wordBreak: 'break-all' }}><span class="badge badge-danger text-uppercase">{item.fail}</span></td>
                                                 <td style={{ wordBreak: 'break-all' }}><span class="badge badge-warning text-uppercase">{item.warning}</span></td>
@@ -170,8 +185,7 @@ class TestSonuclari extends Component {
                                                 <td style={{ wordBreak: 'break-all' }}>{item.sure}</td> */}
                                                 <td style={{ wordBreak: 'break-all' }} class="text-center">
                                                     <Button variant='info' size='sm' onClick={event =>  
-                                                    {var url="https://robotest/report/resultdetails/";
-                                                    var w = window.open(url+item.raporAdi, '_blank');
+                                                    {var w = window.open(item.reportPath, '_blank');
                                                 }}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
                                                 <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
                                               </svg> Rapor Detay</Button>   
@@ -194,6 +208,7 @@ class TestSonuclari extends Component {
             </Row>
           </Container>
           </LoadingOverlay>
+
             </div>
         );
     }

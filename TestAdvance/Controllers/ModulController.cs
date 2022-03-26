@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestAdvance.Business.Interfaces;
+using TestAdvance.CustomFilters;
 using TestAdvance.DataAccess.DTOs.ModulDtos;
 using TestAdvance.Entities.Concrete;
 
@@ -16,8 +17,7 @@ namespace TestAdvance.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ModulController : ControllerBase
+    public class ModulController : AuthenticatedBaseController
     {
             private readonly ILogger<ModulController> _logger;
             private readonly IModulService _modulService;
@@ -27,7 +27,7 @@ namespace TestAdvance.Controllers
             {
                 _logger = logger;
                 _modulService = modulService;
-            _mapper = mapper;
+                _mapper = mapper;
             }
 
 
@@ -42,7 +42,6 @@ namespace TestAdvance.Controllers
             }
 
         [HttpGet("[action]")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetModul(int id)
         {
 
@@ -52,6 +51,7 @@ namespace TestAdvance.Controllers
         }
 
         [HttpPost("[action]")]
+        [ValidModel]
         public async Task<IActionResult> AddModul(ModulAddDto modulAddDto)
         {
             if (!ModelState.IsValid)
@@ -61,6 +61,13 @@ namespace TestAdvance.Controllers
 
             await _modulService.AddAsync(_mapper.Map<Modul>(modulAddDto));
             return Created("", modulAddDto);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UpdateModul(Modul modul)
+        {
+            await _modulService.UpdateAsync(modul);
+            return NoContent();
         }
     }
 }

@@ -40,6 +40,15 @@ namespace TestAdvance.Controllers
             return Ok(result);
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetModul(int id)
+        {
+
+            var result = await _testSuiteService.GetAllAsync(a => a.Id == id);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("InsertTestSuite")]
         public async Task<IActionResult> InsertTestSuite(TestSuiteAddDto testSuiteDto)

@@ -22,6 +22,7 @@ namespace TestAdvance.Business.DiContainer
             services.AddScoped<ITestRunService, TestRunManager>();
             services.AddScoped<ITestSuiteService, TestSuiteManager>();
             services.AddScoped<IModulService, ModulManager>();
+            services.AddScoped<ITestRunDetailService, TestRunDetailManager>();
             services.AddScoped<IAppUserService, AppUserManager>();
 
 

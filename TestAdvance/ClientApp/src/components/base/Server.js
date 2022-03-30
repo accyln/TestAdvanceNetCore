@@ -24,6 +24,7 @@ export function PostSecure(action,body,token)
 
 export async function GetSecure(action,token) {
     try{
+      debugger;
       var header = {
         'Content-Type': 'application/json',
         'Authorization': token ? 'Bearer ' + token : '',

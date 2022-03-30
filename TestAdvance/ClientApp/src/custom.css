@@ -12,3 +12,12 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.alert-appear{
+  opacity: 0.01;
+}
+
+.alert-enter.alert-appear-active {
+  opacity: 1;
+  transition: opacity 300ms linear;
+}

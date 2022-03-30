@@ -38,21 +38,28 @@ export class BasePage extends React.Component {
         });
    }
 
-   GetSecureBase(action,token)
+   async GetSecureBase(action,token)
    {
       return GetSecure(action,token).then(response => {
-          debugger;
-           if(response && response.ok)
-           return response.json()
+           if(response && response.ok) {
+             if(response.status===204){
+                return null; }
+            else return response.json()
+           }
                else if(response)
                {
-     response.json().then(json=>{
+
+                if(response.status===401){
+                   alert("Not authorized..");
+                }  else {
+                     response.json().then(json=>{
          
         if(json.errors)
         alert(json.errors.Subject)
         else
         alert("İşleminizi gerçekleştiremiyoruz lütfen daha sonra tekrar deneyiniz.")
-     });         } 
+     });         }
+    } 
      }
       )
       .catch(
@@ -60,6 +67,7 @@ export class BasePage extends React.Component {
             
             alert(reason);
         });
+    
    }
 
     subscribeToStore(stores = []) {

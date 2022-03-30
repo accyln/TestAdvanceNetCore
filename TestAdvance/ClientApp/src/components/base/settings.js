@@ -3,7 +3,7 @@
 const dev =
 {
 
-    REACT_APP_API_URL: "https://skynetdev.gen.halkbank.local/Devops/"
+    REACT_APP_API_URL: ""
 
 };
 
@@ -11,7 +11,7 @@ const dev =
 const prod =
 {
 
-    REACT_APP_API_URL: "https://skynet.gen.halkbank.local/Devops/"
+    REACT_APP_API_URL: ""
 
 };
 
@@ -26,10 +26,10 @@ export function getApiUrl() {
     if (url.includes("localhost") == true) {
         return local.REACT_APP_API_URL;
     }
-    else if (url.includes("skynetdev") == true) {
+    else if (url.includes("") == true) {
         return dev.REACT_APP_API_URL;
     }
-    if (url.includes("skynet.gen.") == true) {
+    if (url.includes("") == true) {
         return prod.REACT_APP_API_URL;
     }
 

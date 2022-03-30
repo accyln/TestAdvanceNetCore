@@ -69,5 +69,15 @@ namespace TestAdvance.Controllers
             await _modulService.UpdateAsync(modul);
             return NoContent();
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> DeleteModul(int modulId)
+        {
+            var modul = _modulService.GetAllAsync(a => a.Id == modulId).Result.FirstOrDefault();
+
+            await _modulService.RemoveAsync(modul);
+
+            return NoContent();
+        }
     }
 }

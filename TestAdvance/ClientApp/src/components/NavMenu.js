@@ -59,6 +59,7 @@ export class NavMenu extends Component {
         <MenuItem>Senaryo İzle<Link to="/Test" /></MenuItem>
         <MenuItem>Senaryo Oluştur<Link to="/TestSenaryolari" /></MenuItem>
     </SubMenu>
+    <MenuItem>Modüller<Link to="/ModulDetay" /></MenuItem>
   </Menu>
   </div>
   </SidebarContent>

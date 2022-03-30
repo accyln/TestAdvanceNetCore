@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Container, Accordion, Card, Row, Col, Table, FormControl, Form, Button,ButtonToolbar,Badge,Spinner } from 'react-bootstrap'
+import { Container, Accordion, Card, Row, Col, Table, FormControl, Form, Button,ButtonToolbar,Badge,Alert } from 'react-bootstrap'
 import LoadingOverlay from 'react-loading-overlay';
 import { BasePage } from './base/basepage';
+import { CSSTransition } from 'react-transition-group';
+import '../custom.css';
 
 class TestSonuclari extends BasePage {
     displayName = TestSonuclari.name
@@ -16,7 +18,8 @@ class TestSonuclari extends BasePage {
             filteredData: [],
             testResults: [],
             loading:true,
-            runModalShow:false
+            runModalShow:false,
+            alertShow:false
         };
 
 
@@ -117,6 +120,25 @@ class TestSonuclari extends BasePage {
         // }=this.state;
         return (
             <div>
+                {this.state.alertShow ? 
+                (
+                    <CSSTransition
+                    in={this.state.alertShow}
+                    timeout={300}
+                    classNames="alert"
+                    unmountOnExit
+                    transitionAppear={true}
+      transitionAppearTimeout={500}
+      transitionEnter={false}
+      transitionLeave={false}
+                  ><Alert variant="danger" onClose={() => this.setState({alertShow:false})} dismissible>
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <p>
+          Change this and that and try again. Duis mollis, est non commodo
+          luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+          Cras mattis consectetur purus sit amet fermentum.
+        </p>
+      </Alert></CSSTransition>) : null}
             {/* <Testyonetimi/> */}
             <LoadingOverlay
         active={this.state.loading}
@@ -139,7 +161,7 @@ class TestSonuclari extends BasePage {
                                 }} /* style={{ float: 'right' }} */>
                                     Modül İşlemleri
                         </Button></Col>
-                        <input type="submit" value="Submit" class="btn btn-sm btn-outline-primary py-0" onClick={this.test} style={{fontSize:"0.6em"}}></input>
+                        <input type="submit" value="Submit" class="btn btn-sm btn-outline-primary py-0" onClick={()=>this.setState({alertShow:true}) } style={{fontSize:"0.6em"}}></input>
                         </Row>
             <Row style={{marginTop:10}}>
               <Col lg="12">
@@ -184,8 +206,9 @@ class TestSonuclari extends BasePage {
                                                 <td style={{ wordBreak: 'break-all' }}>{item.baslangicTarihi}</td>
                                                 <td style={{ wordBreak: 'break-all' }}>{item.sure}</td> */}
                                                 <td style={{ wordBreak: 'break-all' }} class="text-center">
-                                                    <Button variant='info' size='sm' onClick={event =>  
-                                                    {var w = window.open(item.reportPath, '_blank');
+                                                    <Button variant='info' size='sm' onClick={event => 
+                                                    {this.setState({alertShow:true}) 
+                                                    var w = window.open(item.reportPath, '_blank');
                                                 }}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
                                                 <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
                                               </svg> Rapor Detay</Button>   

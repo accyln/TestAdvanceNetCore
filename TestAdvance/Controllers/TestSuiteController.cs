@@ -69,5 +69,66 @@ namespace TestAdvance.Controllers
 
         }
 
+        [HttpPost]
+        [Route("DeleteTestSuite")]
+        public async Task<IActionResult> DeleteTestSuite(int testSuiteId)
+        {
+            try
+            {
+                var suite = _testSuiteService.GetAllAsync(a => a.Id == testSuiteId).Result.FirstOrDefault();
+
+                if (suite != null)
+                {
+
+                    await _testSuiteService.RemoveAsync(suite);
+
+                    return Ok("Kayıt Silindi");
+
+                } else
+                {
+                    return NoContent();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+        [HttpPost]
+        [Route("UpdateTestSuite")]
+        public async Task<IActionResult> UpdateTestSuite(TestSuite testSuite)
+        {
+            try
+            {
+                var suite = _testSuiteService.GetAllAsync(a => a.Id == testSuite.Id).Result.FirstOrDefault();
+
+                if (suite != null)
+                {
+
+                    await _testSuiteService.UpdateAsync(testSuite);
+
+                    return Ok("Kayıt Güncellendi");
+
+                }
+                else
+                {
+                    return NoContent();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
     }
 }

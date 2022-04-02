@@ -13,6 +13,7 @@ import { ApplicationPaths } from './components/api-authorization/ApiAuthorizatio
 
 import './custom.css'
 import Test from './components/Test';
+import TestSuiteList from './components/TestSuite/TestSuiteList';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -25,6 +26,7 @@ export default class App extends Component {
         <Route path='/TestSonuclari' component={TestSonuclari} />
         <Route path='/TestSenaryolari' component={TestSenaryolari} />
         <Route path='/ModulDetay' component={ModulDetay} />
+        <Route path='/TestSuiteList' component={TestSuiteList} />
         <Route path='/Test' component={Test} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
       </Layout>

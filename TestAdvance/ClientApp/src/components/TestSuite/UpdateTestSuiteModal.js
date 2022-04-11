@@ -27,13 +27,14 @@ export class UpdateTestSuiteModal extends BasePage {
     componentDidMount() {
     this.getModulList();
     
+
     }
 
     
     getModulList() {
         fetch('api/Modul/GetAllModules', ).then(response=> response.json())
         .then(data => {
-          this.setState({ ...this.state, modulList: data });
+          this.setState({ ...this.state, modulList: data },this.setSuiteRelatedModul);
     
     
         });
@@ -44,6 +45,7 @@ export class UpdateTestSuiteModal extends BasePage {
     updateTestSuite = async ()=>{
         try{
         this.setState({loading:true})
+        debugger;
         let requestdata={
             id:this.props.suite.id,
             suiteAdi:this.state.suiteName,
@@ -62,6 +64,7 @@ export class UpdateTestSuiteModal extends BasePage {
             fetch('api/TestSuite/UpdateTestSuite',requestOptions).then(response=> response.status)
             .then(
                 data => {
+                    debugger;
                     if (data===200) {
                         alert("Suite güncelleme  başarılı.");
                 this.setState({suiteName:"",selectedModul:"",loading:false})
@@ -84,10 +87,6 @@ export class UpdateTestSuiteModal extends BasePage {
         console.log(`Grup seçildi:`, selectedModul);
       };
 
-      handleDateSelect = releaseDate => {
-        this.setState({ releaseDate });
-        console.log(`Date seçildi:`, releaseDate);
-      };
 
       onSuiteNameChange = (e) => this.setState({ suiteName: e.target.value })
 
@@ -99,6 +98,11 @@ export class UpdateTestSuiteModal extends BasePage {
 
     spinner() {
         document.getElementsByClassName("loader")[0].style.display = "block";
+    }
+
+    setSuiteRelatedModul(){
+        let value=this.state.modulList.filter(option => option.id === this.props.suite.modulId)
+        this.setState({selectedModul:value});
     }
 
 
@@ -132,8 +136,7 @@ export class UpdateTestSuiteModal extends BasePage {
                                         <div>
                                             <Select
                                              value = {
-                                                moduls.filter(option => 
-                                                   option.id === this.props.suite.modulId )
+                                                this.state.selectedModul
                                              }
                                             onChange={this.handleModulSelect}
                                             options={moduls}
@@ -147,7 +150,7 @@ export class UpdateTestSuiteModal extends BasePage {
                                         <Form.Label>Suite Adı</Form.Label>
                                         <div>
                                         <Form.Control type="text" name="releaseName" onChange={this.onSuiteNameChange} required
-                                              value={this.props?.suite?.suiteAdi}/>
+                                              value={this.state?.suiteName}/>
                                         </div>
                                     </Form.Group>
 

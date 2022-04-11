@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TestAdvance.DataAccess.DTOs.TestCaseDtos;
 using TestAdvance.DataAccess.DTOs.TestResultDtos;
 using TestAdvance.Entities.Concrete;
 
@@ -21,6 +22,7 @@ namespace TestAdvance.DataAccess.DataContexts
          protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TestResultDto>().ToView("TestCaseResultsView").HasKey(t => t.TestRunId);
+            modelBuilder.Entity<TestCaseDetailModelDto>().ToView("TestCaseSenaryoView").HasKey(t => t.Id);
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
@@ -30,5 +32,6 @@ namespace TestAdvance.DataAccess.DataContexts
         public DbSet<TestRun> TestRuns { get; set; }
         public DbSet<TestRunDetail> TestRunDetails { get; set; }
         public DbSet<TestResultDto> TestResults { get; set; }
+        public DbSet<TestCaseDetailModelDto> TestCaseDetails { get; set; }
     }
 }

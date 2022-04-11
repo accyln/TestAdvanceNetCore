@@ -227,7 +227,7 @@ class ModulDetay extends BasePage {
                     <Button variant="primary" type="submit" onClick={this.onClick} disabled={!this.state.isDisabled}/* style={{ float: 'right' }} */>
                                         Getir
                         </Button>{"  "}<Button variant="success" type="submit" onClick={this.onClickNewRecord} disabled={!this.state.isDisabled} /* style={{ float: 'right' }} */>
-                                        Yeni Kayıt Ekle
+                                        Yeni Modül Ekle
                         </Button></Col>
                        
                     </Row>

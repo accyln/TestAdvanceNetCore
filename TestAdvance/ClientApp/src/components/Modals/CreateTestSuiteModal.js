@@ -45,7 +45,10 @@ export class CreateTestSuiteModal extends BasePage {
         this.setState({loading:true})
         let requestdata={
             suiteAdi:this.state.suiteName,
-            modulId:this.state.selectedModul.id
+            modulId:this.state.selectedModul.id,
+            isActive:1,
+            createdDate:new Date(Date.now()),
+            createdBy:"UserName" //TODO usera göre düzenlenecek
         }
 
         const requestOptions = {

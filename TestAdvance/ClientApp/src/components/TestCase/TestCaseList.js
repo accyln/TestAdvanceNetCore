@@ -4,13 +4,12 @@ import { getApiUrl } from '../base/settings';
 import TaskConfirmModal from '../Modals/TaskConfirmModal';
 import LoadingOverlay from 'react-loading-overlay';
 import CreateTestSuiteModal from '../Modals/CreateTestSuiteModal';
-import UpdateTestSuiteModal from './UpdateTestSuiteModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 /* import {RemedyChangeDetailsModal} from './RemedyChangeDetailsModal'; */
 import { BasePage } from '../base/basepage';
 
 
-class TestSuiteList extends BasePage {
+class TestCaseList extends BasePage {
   constructor(props) {
     super(props);
     this.connect(['authReducers']);
@@ -20,24 +19,32 @@ class TestSuiteList extends BasePage {
     var releaseid = params.id;
     this.state = {
       ...this.state,
-      testSuites: [],
+      testCases: [],
+      testSuites:[],
       silinecekKayit: [],
       deleteModalShow: false,
       releaseid: releaseid,
       loading:true,
-      openSuiteCreateModal:false,
-      openSuiteUpdateModal:false,
-      selectedItem:[],
-      modulList:[]
+      openCaseCreateModal:false,
+      openCaseUpdateModal:false,
+      selectedItem:[]
     };
     this.getTestSuites = this.getTestSuites.bind(this);
-    this.getAllModules = this.getAllModules.bind(this);
+    this.getTestCases = this.getTestCases.bind(this);
   }
 
   componentDidMount() {
+    this.getTestCases();
     this.getTestSuites();
-    this.getAllModules();
   }
+
+
+  getTestCases = async () => {
+    await  fetch('/api/TestCase/GetAllTestCases').then(response=> response.json())
+      .then(data => {
+        this.setState({ ...this.state, testCases: data,loading:false });
+      });
+  };
 
 
   getTestSuites = async () => {
@@ -47,32 +54,9 @@ class TestSuiteList extends BasePage {
       });
   };
 
-  getAllModules(){
-    fetch('api/Modul/GetAllModules').then(response=> response.json())
-    .then(
-        data => {
-            if (data) {
-                this.setState({
-                    ...this.state,
-                    modulList: data
-                },this.test);
-            }
-        });
-
-}
 
 
-  openModal = item => {
-    this.setState({ deleteModalShow: true });
-  };
-
-  test= () =>{
-    debugger;
-    console.log(this.state.modulList.filter(option => option.id === 1));
-  }
-
-
-runModalClose=()=>{this.setState({openSuiteUpdateModal:false})}
+runModalClose=()=>{this.setState({openCaseUpdateModal:false})}
 
   deleteRecord = item => {
     fetch(
@@ -96,7 +80,7 @@ runModalClose=()=>{this.setState({openSuiteUpdateModal:false})}
 
   render() {
     var _this = this;
-    let moduls = this.state.modulList;
+    let suites = this.state.testSuites;
     let runModalClose = () => {
       this.setState({
         openSuiteUpdateModal: false,
@@ -144,7 +128,7 @@ runModalClose=()=>{this.setState({openSuiteUpdateModal:false})}
                           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg>{" "}
-                        Test Suite Ekle
+                        Test Case Ekle
                       </Button>
                        <CreateTestSuiteModal
                         show={this.state.openSuiteCreateModal}
@@ -162,37 +146,39 @@ runModalClose=()=>{this.setState({openSuiteUpdateModal:false})}
                   <Table>
                     <thead>
                       <tr>
-                        <th className="text-center">SuiteId</th>
-                        <th className="text-center">Suite Adı</th>
-                        <th className="text-center">Bağlı Modül</th>
+                        <th className="text-center">TestCaseId</th>
+                        <th className="text-center">Test Case Adı</th>
+                        <th className="text-center">Bağlı Suite</th>
+                        <th className="text-center">SenaryoId</th>
                         <th></th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.testSuites?.map((item,i) => {
+                      {this.state.testCases?.map((item,i) => {
                         return (
                           <tr key={item.id}>
                             <td className="text-center">{item.id}</td>
-                            <td className="text-center">{item.suiteAdi}</td>
+                            <td className="text-center">{item.testCaseAdi}</td>
                             <td
                               style={{ wordBreak: "break-all" }}
                               className="text-center"
                             >
                               {
-                                                moduls.filter(option => 
-                                                   option.id === item.modulId)[0]?.modulAdi}
+                                                suites.filter(option => 
+                                                   option.id === item.suiteId)[0]?.suiteAdi}
                             </td>
-
+                            <td className="text-center">{item.senaryoId}</td>
                             <td className="text-center">
                               <Button
                                 variant="warning"
                                 size="sm"
                                 onClick={event => {
-                                  this.setState({openSuiteUpdateModal:true,selectedItem:item})
+                                  var url = "/TestCaseDetails/" + item.id;
+                                  _this.props.history.push(url)
                                 }}
                               >
-                                Güncelle
+                                Detay
                               </Button>
                             </td>
                             <td style={{ width: 50 }} className="text-center">
@@ -214,11 +200,6 @@ runModalClose=()=>{this.setState({openSuiteUpdateModal:false})}
                       })}
                     </tbody>
                   </Table>
-             {this.state.openSuiteUpdateModal ? ( <UpdateTestSuiteModal show={this.state.openSuiteUpdateModal}
-                                                                  suite={this.state.selectedItem}
-                                                                  reCallFunction={this.getTestSuites}
-                                                                onHide={this.runModalClose}
-                                                                 />) : null} 
                 </Card>
               </Col>
             </Row>
@@ -229,4 +210,4 @@ runModalClose=()=>{this.setState({openSuiteUpdateModal:false})}
     );
   }
 }
-export default TestSuiteList;
+export default TestCaseList;

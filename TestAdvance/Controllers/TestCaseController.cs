@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestAdvance.Business.Interfaces;
+using TestAdvance.DataAccess.DataContexts;
 using TestAdvance.DataAccess.DTOs.TestCaseDtos;
 using TestAdvance.Entities.Concrete;
 
@@ -19,12 +20,14 @@ namespace TestAdvance.Controllers
         private readonly ILogger<TestCaseController> _logger;
         private readonly ITestCaseService _testCaseService;
         private readonly IMapper _mapper;
+        private readonly AdvanceContext _advanceContext;
 
-        public TestCaseController(ITestCaseService testCaseService, ILogger<TestCaseController> logger,IMapper mapper)
+        public TestCaseController(ITestCaseService testCaseService, ILogger<TestCaseController> logger,IMapper mapper,AdvanceContext advanceContext)
         {
             _logger = logger;
             _testCaseService = testCaseService;
             _mapper = mapper;
+            _advanceContext = advanceContext;
         }
 
 
@@ -42,7 +45,7 @@ namespace TestAdvance.Controllers
         [Route("GetTestCase")]
         public async Task<IActionResult> GetTestCase(int id)
         {
-            var result = _testCaseService.GetAllAsync(a => a.Id == id);
+            var result =await _testCaseService.GetAllAsync(a => a.Id == id);
 
             return Ok(result);
         }
@@ -71,5 +74,17 @@ namespace TestAdvance.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("GetTestCaseDetails")]
+        public async Task<IActionResult> GetTestCaseDetails(int testCaseId)
+        {
+
+            var result =  _advanceContext.TestCaseDetails.Where(a => a.Id == testCaseId);
+
+            return Ok(result);
+        }
+
+ 
     }
 }

@@ -14,6 +14,8 @@ import { ApplicationPaths } from './components/api-authorization/ApiAuthorizatio
 import './custom.css'
 import Test from './components/Test';
 import TestSuiteList from './components/TestSuite/TestSuiteList';
+import TestCaseList from './components/TestCase/TestCaseList';
+import TestCaseDetails from './components/TestCase/TestCaseDetails';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -27,6 +29,10 @@ export default class App extends Component {
         <Route path='/TestSenaryolari' component={TestSenaryolari} />
         <Route path='/ModulDetay' component={ModulDetay} />
         <Route path='/TestSuiteList' component={TestSuiteList} />
+        <Route path='/TestCaseList' component={TestCaseList} />
+
+        <Route path='/TestCaseDetails/:id'  component={TestCaseDetails} />
+
         <Route path='/Test' component={Test} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
       </Layout>

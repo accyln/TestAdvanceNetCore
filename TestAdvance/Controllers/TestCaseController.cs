@@ -79,11 +79,12 @@ namespace TestAdvance.Controllers
         [Route("GetTestCaseDetails")]
         public async Task<IActionResult> GetTestCaseDetails(int testCaseId)
         {
+            List<TestCaseDetailModelDto> testCaseDetailModelDto = new List<TestCaseDetailModelDto>();
+            testCaseDetailModelDto =  _advanceContext.TestCaseDetails.OrderBy(a=>a.OrderId).ToList();
 
-            var result =  _advanceContext.TestCaseDetails.Where(a => a.Id == testCaseId);
-
-            return Ok(result);
+            return Ok(testCaseDetailModelDto);
         }
+
 
  
     }

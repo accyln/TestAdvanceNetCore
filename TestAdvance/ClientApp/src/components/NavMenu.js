@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
 import './NavMenu.css';
@@ -29,10 +29,46 @@ export class NavMenu extends Component {
   render () {
     return (
 
-      <div style={{height: "auto"}}>
-<Nav>
+      <div className='navcontainer'>
+        <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
+          
+
+            <Row style={{width:2295}}>
+              <Col>
+            <div style={{width:250}}>
+              <span class="white" style={{ marginLeft:30,marginTop:20,
+            padding: "24px",
+            textTransform: "uppercase",
+            fontWeight: "bold",
+            fontSize: 14,
+            letterSpacing: "1px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",color:"#adadad"
+          }}>TEST ADVANCE</span></div>
+          </Col> <Col sm={6}><div className="box" style={{
+              height:30,
+              padding: '4px',
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+              fontSize: 12,
+              letterSpacing: '1px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              color:"#adadad",
+              marginLeft:'auto',
+              marginRight:5,
+              wordBreak: 'break-all',
+              marginBottom:10,
+              marginTop:15,
+              float:"right"
+            }}><span>{"_this.state?.userInfo?.name"}</span></div></Col>
+          </Row>
+          
+        </nav>
+
 <ProSidebar image={false}
-      >
+ width="250px"     >
       
 {/* <SidebarHeader>
 <div
@@ -54,11 +90,9 @@ export class NavMenu extends Component {
       <div style={{height: "100vh",width:"250"}}>
   <Menu iconShape="square">
     <MenuItem>Dashboard<Link to="/" /></MenuItem>
-    <MenuItem>Test Sonuçları<Link to="/TestSonuclari" /></MenuItem>
-    <SubMenu title="Test Senaryoları">
-        <MenuItem>Senaryo İzle<Link to="/TestCaseList" /></MenuItem>
-        <MenuItem>Senaryo Oluştur<Link to="/TestSenaryolari" /></MenuItem>
-    </SubMenu>
+    <MenuItem>Test Koşum Sonuçları<Link to="/TestSonuclari" /></MenuItem>
+    <MenuItem>Test Senaryoları<Link to="/TestCaseList" /></MenuItem>
+    <MenuItem>Senaryo Oluştur<Link to="/TestSenaryolari" /></MenuItem>
     <MenuItem>Modüller<Link to="/ModulDetay" /></MenuItem>
     <MenuItem>Test Suiteler<Link to="/TestSuiteList" /></MenuItem>
   </Menu>
@@ -66,7 +100,7 @@ export class NavMenu extends Component {
   </SidebarContent>
   <SidebarFooter></SidebarFooter>
 </ProSidebar>
-</Nav>
+
 </div>
 
 

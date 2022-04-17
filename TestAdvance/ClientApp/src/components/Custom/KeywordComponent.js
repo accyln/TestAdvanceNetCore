@@ -19,7 +19,13 @@ const [applicationType,setType]=useState(null);
 
 return(
 
-<div><Card>props.name</Card></div>
+<div>
+ <Card className="mb-4" style={{border: "1px solid #c9c9c9"}}>
+    <Card.Body style={{backgroundColor:"gainsboro"}}><center>{props.senaryo.name}</center>
+    
+    </Card.Body>
+    </Card>
+  </div>
 
 )
 

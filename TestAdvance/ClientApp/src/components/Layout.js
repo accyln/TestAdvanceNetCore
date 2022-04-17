@@ -1,9 +1,5 @@
-import React, { Component } from 'react';
-import { Container,Row,Col } from 'reactstrap';
-import { Nav, Navbar } from 'react-bootstrap';
-import { NavMenu } from './NavMenu';
-import Button from 'reactstrap/lib/Button';
-import Sidebar from './Sidebar';
+import React from 'react';
+import {NavMenu}  from './NavMenu';
 import styled from 'styled-components';
 
 // component styles
@@ -11,6 +7,7 @@ const Wrapper = styled.div`
     @media (min-width: 700px) {
         display: flex;
         position: fixed;
+        margim:30px
         height: calc(100% - 100px);
         width: 100%;
         flex: auto;
@@ -20,7 +17,7 @@ const Wrapper = styled.div`
 const Main = styled.main`
     position: fixed;
     height: calc(100% - 185px);
-    top: 60px;
+    top: 80px;
     overflow-y:scroll;
     width: 100%;
     padding: 1em;
@@ -32,8 +29,23 @@ const Main = styled.main`
     }
 `;
 
+const Layout = ({ children }) => {
+    return (
+    <React.Fragment>
+        {/* <Header /> */}
+        <Wrapper>
+        <NavMenu/>
+            {/* <NavMenu /> */}
+            <Main>{children}</Main>
+        </Wrapper>
+    </React.Fragment>
+    );
+};
+export default Layout;
 
-export class Layout extends Component {
+
+
+/* export class Layout extends Component {
   static displayName = Layout.name; 
 
   render () {
@@ -43,7 +55,7 @@ export class Layout extends Component {
                 
         <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
           
-          <div style={{height:30,width:2530}}>
+          <div style={{height:30}}>
             <Row>
             <div style={{width:250}}>
               <span class="white" style={{ marginLeft:40,marginTop:10,
@@ -68,19 +80,19 @@ export class Layout extends Component {
           <Wrapper>
         <Row>
             <Col sm={2}>
-                <div style={{height: "100vh",width:250}}>
+                <div style={{height: "100vh",width:0}}>
         <NavMenu/>
         </div>
         </Col>
         <Col sm={8}>
 
             <div style={{margin:25}}>
-        <Container>
+        <Main>
 
               {this.props.children}
 
 
-        </Container>
+        </Main>
         </div>
         </Col>
         </Row>
@@ -89,4 +101,4 @@ export class Layout extends Component {
       </div>
     );
   }
-}
+} */

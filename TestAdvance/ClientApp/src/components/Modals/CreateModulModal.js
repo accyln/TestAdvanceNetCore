@@ -5,63 +5,46 @@ import LoadingOverlay from 'react-loading-overlay';
 import {BasePage} from '../base/basepage';
 
 
-export class CreateTestSuiteModal extends BasePage {
+export class CreateModulModal extends BasePage {
 
     constructor(props) {
         super(props);
         this.connect(['authReducers']);
         this.state = {
             ...this.state,
-            modulList : [],
-            selectedModul: null,
-            selectedOrtam: null,
             loading:false,
-            suiteName:""
+            modulAdi:"",
+            email:"",
+            sorumluPersonel:""
         };
 
 
     }
 
 
-    componentDidMount() {
-    this.getModulList();
-    
-    }
-
-    
-    getModulList() {
-        debugger;
-        this.GetSecureBase('api/Modul/GetAllModules', this.state?.userInfo?.token)
-        .then(data => {
-          this.setState({ ...this.state, modulList: data });
-    
-    
-        });
-    }
 
     handleHide = () => this.setState({ runModalShow: false });
 
-    createTestSuite = async ()=>{
+    createModul = async ()=>{
         try{
         this.setState({loading:true})
         let requestdata={
-            suiteAdi:this.state.suiteName,
-            modulId:this.state.selectedModul.id,
-            isActive:1,
-            createdDate:new Date(Date.now()),
-            createdBy:this.state?.userInfo?.name+" "+this.state?.userInfo?.surName//TODO usera göre düzenlenecek
+            modulAdi:this.state.modulAdi,
+            email:this.state.email,
+            sorumluPersonel:this.state.sorumluPersonel,
+            
         }
 
 
-            this.PostSecureBase('api/TestSuite/InsertTestSuite',requestdata,this.state?.userInfo?.token)
+            this.PostSecureBase('api/Modul/AddModul',requestdata,this.state?.userInfo?.token)
             .then(
                 data => {
                     if (data) {
-                        alert("Suite oluşturma  başarılı.");
-                this.setState({suiteName:"",selectedModul:"",loading:false})
+                        alert("Modul oluşturma başarılı.");
+                this.setState({modulAdi:"",email:"",sorumluPersonel:"",loading:false})
                 this.props.onHide()
                         } else {
-                            alert("Release oluşturma işleminde hata alındı. Hata kodu : "+data);
+                            alert("Modul oluşturma işleminde hata alındı. Hata kodu : "+data);
                         }
                     
                 });
@@ -71,18 +54,9 @@ export class CreateTestSuiteModal extends BasePage {
         }
     }
 
-
-    handleModulSelect = selectedModul => {
-        this.setState({ selectedModul });
-        console.log(`Grup seçildi:`, selectedModul);
-      };
-
-      handleDateSelect = releaseDate => {
-        this.setState({ releaseDate });
-        console.log(`Date seçildi:`, releaseDate);
-      };
-
-      onSuiteNameChange = (e) => this.setState({ suiteName: e.target.value })
+      onModulAdiChange = (e) => this.setState({ modulAdi: e.target.value })
+      onEmailChange = (e) => this.setState({ email: e.target.value })
+      onSorumluPersonelChange = (e) => this.setState({ sorumluPersonel: e.target.value })
 
       sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -111,7 +85,7 @@ export class CreateTestSuiteModal extends BasePage {
 
                     <Modal.Header clooseButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Suite Oluştur
+                            Test Case Oluştur
                         </Modal.Title>
                     </Modal.Header>
 
@@ -121,29 +95,29 @@ export class CreateTestSuiteModal extends BasePage {
                                  
                                     <Form onSubmit={this.handleSubmit}>
                                     <Form.Group controlId="Release">
-                                    <Form.Label>Modül</Form.Label>
+                                    <Form.Label>Modül Adı</Form.Label>
                                         <div>
-                                            <Select
-                                            onChange={this.handleModulSelect}
-                                            options={moduls}
-                                            getOptionLabel={(moduls) => moduls['modulAdi']}
-                                            getOptionValue={(moduls) => moduls['id']}
-                                            
-                                                >  
-                                            </Select>
+                                        <Form.Control type="text" name="releaseName" onChange={this.onModulAdiChange} required
+                                              value={this.state.modulAdi}/>
                                         </div>
                                         <br></br>                 
-                                        <Form.Label>Suite Adı</Form.Label>
+                                        <Form.Label>Email</Form.Label>
                                         <div>
-                                        <Form.Control type="text" name="releaseName" onChange={this.onSuiteNameChange} required
-                                              value={this.state.suiteName}/>
+                                        <Form.Control type="text" name="releaseName" onChange={this.onEmailChange} required
+                                              value={this.state.email}/>
+                                        </div>
+                                        <br></br>    
+                                        <Form.Label>Sorumlu</Form.Label>
+                                        <div>
+                                        <Form.Control type="text" name="releaseName" onChange={this.onSorumluPersonelChange} required
+                                              value={this.state.sorumluPersonel}/>
                                         </div>
                                     </Form.Group>
 
                                     <Form.Group>
                                     <br></br>
                                     <Button variant='success' size='md' onClick={event =>  
-                                                    {this.createTestSuite();
+                                                    {this.createModul();
 
                                                     }} 
                                                     >{' '} {this.state.loading ? <Spinner
@@ -152,7 +126,7 @@ export class CreateTestSuiteModal extends BasePage {
       size="sm"
       role="status"
       aria-hidden="true"
-    /> : 'Suite Oluştur'}</Button>
+    /> : 'Modül Oluştur'}</Button>
                                     </Form.Group>
                                 </Form>
                             </Col>
@@ -173,4 +147,4 @@ export class CreateTestSuiteModal extends BasePage {
 }
 
 
-export default CreateTestSuiteModal;
+export default CreateModulModal;

@@ -11,7 +11,7 @@ namespace TestAdvance.Controllers
     }
 
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AuthenticatedBaseController : BaseController
     {
     }

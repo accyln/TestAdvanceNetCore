@@ -28,24 +28,27 @@ class TestCaseDetails extends BasePage {
       isUpdateMode:false,
       runKeywordModalShow:false,
       selectedKeyword:[],
-      lastKeyword:null,
-      successfullInsertCount:0
+      lastKeyword:{typeClass:"PageLogin"},
+      successfullInsertCount:0,
+      testSuites:[]
       
     };
 
     this.getTestCaseInfo = this.getTestCaseInfo.bind(this);
     this.getTestCaseDetails = this.getTestCaseDetails.bind(this);
+    this.getTestSuites = this.getTestSuites.bind(this);
 
   }
 
   componentDidMount() {
     this.getTestCaseInfo();
     this.getTestCaseDetails();
+    this.getTestSuites();
 
   }
 
   getTestCaseInfo = async () => {
-    fetch('api/TestCase/GetTestCase?id='+this.state.testCaseId).then(response=> response.json())
+    this.GetSecureBase('api/TestCase/GetTestCase?id='+this.state.testCaseId,this.state?.userInfo?.token)
         .then(
             data => {
                 if (data) {
@@ -59,10 +62,11 @@ class TestCaseDetails extends BasePage {
   };
 
   getTestCaseDetails = async () => {
-    fetch('api/TestCase/GetTestCaseDetails').then(response=> response.json())
+    this.GetSecureBase('api/TestCase/GetTestCaseDetails?testCaseId='+this.state.testCaseId,this.state?.userInfo?.token)
         .then(
             data => {
                 if (data) {
+                  debugger;
                     this.setState({
                         ...this.state,
                         senaryo: data,
@@ -73,10 +77,17 @@ class TestCaseDetails extends BasePage {
             });
   };
 
+  getTestSuites = async () => {
+    await  this.GetSecureBase('api/TestSuite/GetAllTestSuites',this.state?.userInfo?.token)
+      .then(data => {
+        this.setState({ ...this.state, testSuites: data.result });
+      });
+  };
+
 
   deleteSenaryo(){
     this.setState({loadingSenaryo:true})
-    fetch('api/Senaryo/DeleteSenaryo?testCaseId='+this.state.testCaseId).then(response=> response.json())
+    this.GetSecureBase('api/Senaryo/DeleteSenaryo?testCaseId='+this.state.testCaseId,this.state?.userInfo?.token)
             .then(
                 data => {
                     if (data) {
@@ -92,33 +103,22 @@ class TestCaseDetails extends BasePage {
   saveScenario = async ()=>{
     try{
 
+      if(this.state.senaryo.length>0){
     let i=0;
     this.state.senaryo.forEach(element => {
       i++
     let requestdata={
-        senaryoId:this.state.testCaseDetay.senaryoId,
+        senaryoId:this.state.testCaseDetay.id,
         orderId:i,
         keywordId:element.keywordId ? element.keywordId : element.id,
         createdDate:new Date(Date.now()),
-        createdBy:"UserName" //TODO usera göre düzenlenecek
+        createdBy:this.state?.userInfo?.name+" "+this.state?.userInfo?.surName//TODO usera göre düzenlenecek
     }
 
-
-  
-
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(requestdata)
-    };
-
-    fetch('api/Senaryo/AddSenaryoSteps',requestOptions).then(response=> response.status)
+    this.PostSecureBase('api/Senaryo/AddSenaryoSteps',requestdata,this.state?.userInfo?.token)
             .then(
                 data => {
-                    if (data===200) {
+                    if (data) {
                         this.setState({successfullInsertCount:this.state.successfullInsertCount+1})
                         } else {
                             alert("Senaryo oluşturma işleminde hata alındı. Hata kodu : "+data);
@@ -131,6 +131,10 @@ class TestCaseDetails extends BasePage {
             }
             await this.delay(5000);
               this.setState({successfullInsertCount:0,loadingSenaryo:false,isUpdateMode:false,displayEkle:"none"},this.getTestCaseDetails)
+          } else {
+            this.setState({lastKeyword:undefined,successfullInsertCount:0,loadingSenaryo:false,isUpdateMode:false,displayEkle:"none"});
+          }
+
     } catch (e) {
         alert("İşleminizi gerçekleştirilemedi, servis çağrısında hata alındı.");
             this.setState({ loadingSenaryo: false });
@@ -144,8 +148,11 @@ class TestCaseDetails extends BasePage {
   removeTestStep(senary){
     senary.pop();
     this.setState({...this.state,senaryo:senary})
+    if(senary.length>0){
     this.childRef.current.getKeywordList(senary[senary.length-1].typeClass);
-    
+    } else {
+      this.childRef.current.getKeywordList("PageLogin");
+    }
   };
 
   handleKeywordSelect(lang){
@@ -158,8 +165,10 @@ class TestCaseDetails extends BasePage {
 
   delay = ms => new Promise(res => setTimeout(res, ms));
 
+
   render() {
     var _this = this;
+    let suites = this.state.testSuites;
     let runModalClose = () => {
       this.setState({
         deleteModalShow: false,
@@ -230,7 +239,10 @@ class TestCaseDetails extends BasePage {
                       type="text"
                       name="TargetProject"
                       required
-                      value={this.state.testCaseDetay?.suiteId}
+                      value={
+                        
+                        suites.filter(option => 
+                             option.id === this.state.testCaseDetay?.suiteId)[0]?.suiteAdi}
                     />
 
                     <br></br>
@@ -260,8 +272,10 @@ class TestCaseDetails extends BasePage {
           <Card className="mb-4" style={{borderColor:"grey",backgroundColor:"lightslategray"}}>
             <Card.Header>
               <Row><Col sm={2}><h5 style={{color:"white"}}>Senaryo Detay</h5></Col><Col sm={8}></Col><Col sm={2}>
-                {this.state.isUpdateMode===true ? (<Button style={{float:"right"}} onClick={()=>this.deleteSenaryo()}>Kaydet</Button>) : 
-                (<Button variant="warning" style={{float:"right"}} onClick={()=>this.setState({isUpdateMode:true,displayEkle:true})}>Güncelle</Button>)
+                {this.state.isUpdateMode===true ? (<Button style={{float:"right"}} onClick={()=>this.deleteSenaryo()}>Kaydet</Button>) : this.state.senaryo.length>0 ?
+                (<Button variant="warning" style={{float:"right"}} onClick={()=>this.setState({isUpdateMode:true,displayEkle:true})}>Güncelle</Button>) : (<Button variant="warning" style={{float:"right"}} onClick={()=>{
+                  let data={typeClass:"PageLogin"}
+                  this.setState({isUpdateMode:true,displayEkle:true,lastKeyword:data})}}>Senaryo Oluştur</Button>)
                   }
                 </Col></Row>
               
@@ -276,17 +290,18 @@ class TestCaseDetails extends BasePage {
             <Card.Body style={{backgroundColor:"white"}}>
               <Row><Col sm={4}></Col>
               <Col sm={4}>
-            {this.state.senaryo?.map((item) => {
+                 {this.state.senaryo.length>0 ? (
+                  this.state.senaryo?.map((item) => {
                         return (
                     <KeywordComponent senaryo={item}/>
                     )}
-                    )}
+                    )) : this.state.displayEkle==="none" ? (<div>Test case'e ait bir senaryo bulunmamaktadır.</div>) : null}
                     <center><Button variant="success" style={{display:this.state.displayEkle}} onClick={()=>this.setState({runKeywordModalShow:true})}>Keyword Ekle</Button>{" "}
                     <Button variant="danger" style={{display:this.state.displayEkle}} onClick={()=>this.removeTestStep(this.state.senaryo)}>Keyword Çıkar</Button>
                     </center>
                     {this.state.lastKeyword!=={} && this.state.lastKeyword ? 
                     (<KeywordListModal show={this.state.runKeywordModalShow} handleKeywordSelect={this.handleKeywordSelect.bind(this)}
-                                              onHide={runModalClose} lastKeyword={this.state.senaryo[this.state.senaryo.length - 1]} ref={this.childRef}/>):null}
+                                              onHide={runModalClose} lastKeyword={this.state.senaryo[this.state.senaryo.length - 1] ? this.state.senaryo[this.state.senaryo.length - 1] : this.state.lastKeyword} ref={this.childRef}/>):null}
                     </Col>
                     <Col sm={4}></Col>
                     </Row>

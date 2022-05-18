@@ -41,14 +41,15 @@ class TestSuiteList extends BasePage {
 
 
   getTestSuites = async () => {
-    await  fetch('/api/TestSuite/GetAllTestSuites').then(response=> response.json())
+    await  this.GetSecureBase('api/TestSuite/GetAllTestSuites',this.state?.userInfo?.token)
       .then(data => {
-        this.setState({ ...this.state, testSuites: data,loading:false });
+        this.setState({ ...this.state, testSuites: data.result,loading:false });
       });
   };
 
   getAllModules(){
-    fetch('api/Modul/GetAllModules').then(response=> response.json())
+    debugger;
+    this.GetSecureBase('api/Modul/GetAllModules',this.state?.userInfo?.token)
     .then(
         data => {
             if (data) {
@@ -75,18 +76,18 @@ class TestSuiteList extends BasePage {
 runModalClose=()=>{this.setState({openSuiteUpdateModal:false})}
 
   deleteRecord = item => {
-    fetch(
-        "/api/TestSuite/DeleteTestSuite?testSuiteId=" +
-        item.id,{
-          method: 'POST'
-
-            },undefined).then(response=> response.status)
+    this.PostSecureBase(
+        "api/TestSuite/DeleteTestSuite?testSuiteId=" +
+        item.id,{},this.state?.userInfo?.token)
         .then(data => {
           console.log(data);
-      if (data===200) {
+      if (data) {
         console.log("Kayıt silindi");
         this.setState({ deleteModalShow: false, loading: true });
         this.getTestSuites();
+      } else {
+        alert("Silme işlemind hata alındı");
+        this.setState({ deleteModalShow: false});
       }
     });
   };

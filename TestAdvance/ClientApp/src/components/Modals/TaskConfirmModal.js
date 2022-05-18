@@ -43,12 +43,13 @@ export class TaskConfirmModal extends Component {
                         </Row>
                         </div>
                         <pre></pre>
-                        <div style={{width:300}}>
+                        <div style={{width:500}}>
                         <Row style={{marginLeft:110}}>
-                            <Col>
+                            <Col sm={2}>
                                 <Button variant="success" onClick={this.props.deleteRecord}>Tamam</Button>
                             </Col>
-                            <Col>
+                            <Col sm={1}></Col>
+                            <Col sm={2}>
                                 <Button variant="danger" onClick={this.props.onHide}>Vazgeç</Button>
                             </Col>
                         </Row>

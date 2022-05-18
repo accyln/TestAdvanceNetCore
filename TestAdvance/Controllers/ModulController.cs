@@ -67,7 +67,7 @@ namespace TestAdvance.Controllers
         public async Task<IActionResult> UpdateModul(Modul modul)
         {
             await _modulService.UpdateAsync(modul);
-            return NoContent();
+            return Ok(modul);
         }
 
         [HttpPost("[action]")]
@@ -77,7 +77,7 @@ namespace TestAdvance.Controllers
 
             await _modulService.RemoveAsync(modul);
 
-            return NoContent();
+            return Ok(modul);
         }
     }
 }

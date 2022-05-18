@@ -3,6 +3,7 @@ import { Navbar, Nav, Modal, ModalBody, Button, Row, Col, Form, ListGroup, ListG
 import Select from 'react-select';
 import LoadingOverlay from 'react-loading-overlay';
 import {BasePage} from '../base/basepage';
+import { textSpanIntersectsWithPosition } from 'typescript';
 
 
 export class UpdateTestSuiteModal extends BasePage {
@@ -32,7 +33,7 @@ export class UpdateTestSuiteModal extends BasePage {
 
     
     getModulList() {
-        fetch('api/Modul/GetAllModules', ).then(response=> response.json())
+        this.GetSecureBase('api/Modul/GetAllModules', this.state?.userInfo?.token)
         .then(data => {
           this.setState({ ...this.state, modulList: data },this.setSuiteRelatedModul);
     
@@ -45,13 +46,12 @@ export class UpdateTestSuiteModal extends BasePage {
     updateTestSuite = async ()=>{
         try{
         this.setState({loading:true})
-        debugger;
         let requestdata={
             id:this.props.suite.id,
             suiteAdi:this.state.suiteName,
-            modulId:this.state.selectedModul.id
+            modulId:this.state.selectedModul[0].id
         }
-
+        debugger
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -61,17 +61,17 @@ export class UpdateTestSuiteModal extends BasePage {
               body: JSON.stringify(requestdata)
         }; 
 
-            fetch('api/TestSuite/UpdateTestSuite',requestOptions).then(response=> response.status)
+            this.PostSecureBase('api/TestSuite/UpdateTestSuite',requestdata,this.state?.userInfo?.token)
             .then(
                 data => {
-                    debugger;
-                    if (data===200) {
-                        alert("Suite güncelleme  başarılı.");
+                    if (data) {
+                        alert("Suite güncelleme başarılı.");
                 this.setState({suiteName:"",selectedModul:"",loading:false})
                 this.props.onHide()
                 this.props.reCallFunction()
                         } else {
-                            alert("Release oluşturma işleminde hata alındı. Hata kodu : "+data);
+                            this.setState({loading:false})
+                            alert("Suite güncelleme işleminde hata alındı. Hata kodu : "+data);
                         }
                     
                 });

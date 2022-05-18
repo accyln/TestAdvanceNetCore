@@ -26,10 +26,18 @@ namespace TestAdvance.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> SignIn(AppUserLoginDto appUserLoginDto)
         {
+            
             var user = await _appUserService.CheckUserAsync(appUserLoginDto);
             if (user != null)
             {
-                return Created("",_jwtService.GenerateJwt(user).Token);
+                LoginResponseDto loginResponse = new LoginResponseDto()
+                {
+                    Name = user.Name,
+                    SurName = user.SurName,
+                    Token = _jwtService.GenerateJwt(user).Token
+                };
+
+                return Created("", loginResponse);
             }
             return BadRequest("Kullanıcı adı veya şifre hatalı");
 

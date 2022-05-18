@@ -15,7 +15,7 @@ namespace TestAdvance.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestRunController : ControllerBase
+    public class TestRunController : AuthenticatedBaseController
     {
         private readonly ILogger<TestRunController> _logger;
         private readonly ITestRunService _testRunService;
@@ -79,6 +79,7 @@ namespace TestAdvance.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError("InsertTestRunDetail", ex);
                 throw ex;
 
             }
@@ -89,10 +90,57 @@ namespace TestAdvance.Controllers
         [Route("GetTestResults")]
         public async Task<IActionResult> GetTestResults()
         {
+            try
+            {
 
-           var result= dbContext.TestResults.ToList();
+                var result= dbContext.TestResults.ToList();
 
             return Ok(result);
+
+            }
+              catch (Exception ex)
+            {
+                _logger.LogError("GetTestResults", ex);
+                throw ex;
+
+            }
+}
+
+        [HttpGet]
+        [Route("GetTestResultDashboard")]
+        public async Task<IActionResult> GetTestResultDashboard()
+        {
+            try
+            {
+
+                var result = dbContext.TestResultDashboard.ToList();
+
+            return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetTestResultDashboard", ex);
+                throw ex;
+
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTestResultGunlukDashboard")]
+        public async Task<IActionResult> GetTestResultGunlukDashboard(DateTime testRunDate)
+        {
+            try
+            {
+                var result = dbContext.TestResultDashboard.Where(a=>a.TestRunDate==testRunDate).FirstOrDefault();
+
+            return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("GetTestResultGunlukDashboard", ex);
+                throw ex;
+
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using TestAdvance.Business.Interfaces;
@@ -15,7 +16,7 @@ namespace TestAdvance.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestSuiteController : ControllerBase
+    public class TestSuiteController : AuthenticatedBaseController
     {
 
         private readonly ILogger<TestSuiteController> _logger;
@@ -35,13 +36,14 @@ namespace TestAdvance.Controllers
         public async Task<IActionResult> GetAllTestSuites()
         {
 
-            var result = await _testSuiteService.GetAllAsync();
+            //var result = await _testSuiteService.GetAllAsync();
+            return Ok(ApiResult<List<TestSuite>>.Success(201, await _testSuiteService.GetAllAsync()));
 
-            return Ok(result);
+            //return Ok(result);
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetModul(int id)
+        public async Task<IActionResult> GetModul([Required]int id)
         {
 
             var result = await _testSuiteService.GetAllAsync(a => a.Id == id);
@@ -63,6 +65,7 @@ namespace TestAdvance.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError("DeleteTestSuite", ex);
                 throw ex;
 
             }
@@ -82,17 +85,19 @@ namespace TestAdvance.Controllers
 
                     await _testSuiteService.RemoveAsync(suite);
 
-                    return Ok("Kayıt Silindi");
+                    return Ok(suite);
 
                 } else
                 {
-                    return NoContent();
+
+                    return Conflict();
                 }
 
 
             }
             catch (Exception ex)
             {
+                _logger.LogError("DeleteTestSuite", ex);
                 throw ex;
 
             }
@@ -112,7 +117,7 @@ namespace TestAdvance.Controllers
 
                     await _testSuiteService.UpdateAsync(testSuite);
 
-                    return Ok("Kayıt Güncellendi");
+                    return Ok(testSuite);
 
                 }
                 else
@@ -124,6 +129,7 @@ namespace TestAdvance.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError("UpdateTestSuite", ex);
                 throw ex;
 
             }

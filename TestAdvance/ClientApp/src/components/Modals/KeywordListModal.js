@@ -3,6 +3,7 @@ import { Modal, ModalBody,Container, InputGroup, Card, Row, Col, Table, FormCont
 import LoadingOverlay from 'react-loading-overlay';
 import { BasePage } from '../base/basepage';
 import 'bootstrap/dist/css/bootstrap.css';
+import { textSpanIntersectsWithPosition } from 'typescript';
 
 
 
@@ -21,7 +22,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
         this.getKeywordList = this.getKeywordList.bind(this);
         this.onTextBoxChange = this.onTextBoxChange.bind(this);
-        this.getKeywordList(this.props.lastKeyword.typeClass);
+        this.getKeywordList(this.props?.lastKeyword?.typeClass);
 
     }; 
 
@@ -33,7 +34,7 @@ import 'bootstrap/dist/css/bootstrap.css';
  async getKeywordList(typeClass) {
      debugger
   this.setState({loadingDeploymentList:true});
-  fetch('api/Senaryo/GetAvaliableKeywords?HomeClass='+typeClass).then(response=> response.json())
+  this.GetSecureBase('api/Senaryo/GetAvaliableKeywords?HomeClass='+typeClass,this.state?.userInfo?.token)
   .then(data => {
   if (data) {
     this.setState({
@@ -99,7 +100,7 @@ import 'bootstrap/dist/css/bootstrap.css';
                     <Modal.Header clooseButton>
                     <div class="container-fluid"><Row><Col sm={11}>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Deployment Listele & Seç
+                            Keyword Listele & Seç
                         </Modal.Title>
                         </Col>
                         <Col sm={1} style={{marginLeft:'auto',marginRight:10}}><Button variant="danger" onClick={this.props.onHide}>Kapat</Button></Col>

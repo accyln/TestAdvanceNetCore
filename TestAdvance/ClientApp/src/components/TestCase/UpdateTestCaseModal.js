@@ -5,18 +5,19 @@ import LoadingOverlay from 'react-loading-overlay';
 import {BasePage} from '../base/basepage';
 
 
-export class CreateTestSuiteModal extends BasePage {
+export class UpdateTestCaseModal extends BasePage {
 
     constructor(props) {
         super(props);
         this.connect(['authReducers']);
         this.state = {
             ...this.state,
-            modulList : [],
-            selectedModul: null,
+            suiteList : [],
+            selectedSuite: null,
             selectedOrtam: null,
             loading:false,
-            suiteName:""
+            caseName:this.props.testCase.testCaseAdi,
+            modul:this.props.modulId
         };
 
 
@@ -24,16 +25,16 @@ export class CreateTestSuiteModal extends BasePage {
 
 
     componentDidMount() {
-    this.getModulList();
+    this.getSuiteList();
     
+
     }
 
     
-    getModulList() {
-        debugger;
-        this.GetSecureBase('api/Modul/GetAllModules', this.state?.userInfo?.token)
+    getSuiteList() {
+        this.GetSecureBase('api/TestSuite/GetAllTestSuites', this.state?.userInfo?.token)
         .then(data => {
-          this.setState({ ...this.state, modulList: data });
+          this.setState({ ...this.state, suiteList: data.result },this.setSuiteRelatedModul);
     
     
         });
@@ -41,29 +42,38 @@ export class CreateTestSuiteModal extends BasePage {
 
     handleHide = () => this.setState({ runModalShow: false });
 
-    createTestSuite = async ()=>{
+    updateTestCase = async ()=>{
         try{
         this.setState({loading:true})
+        debugger;
         let requestdata={
-            suiteAdi:this.state.suiteName,
-            modulId:this.state.selectedModul.id,
-            isActive:1,
-            createdDate:new Date(Date.now()),
-            createdBy:this.state?.userInfo?.name+" "+this.state?.userInfo?.surName//TODO usera göre düzenlenecek
+            id:this.props.testCase.id,
+            testCaseAdi:this.state.caseName,
+            suiteId:this.state.selectedSuite[0].id
         }
+debugger;
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(requestdata)
+        }; 
 
-
-            this.PostSecureBase('api/TestSuite/InsertTestSuite',requestdata,this.state?.userInfo?.token)
+            this.PostSecureBase('api/TestCase/UpdateTestCase',requestdata,this.state?.userInfo?.token)
             .then(
                 data => {
+
                     if (data) {
-                        alert("Suite oluşturma  başarılı.");
-                this.setState({suiteName:"",selectedModul:"",loading:false})
-                this.props.onHide()
+                        alert("Test Case güncelleme  başarılı.");
+                this.setState({caseName:"",selectedSuite:""})
+                this.props.reCallFunction()
                         } else {
-                            alert("Release oluşturma işleminde hata alındı. Hata kodu : "+data);
+                            alert("Case güncelleme işleminde hata alındı. Hata kodu : "+data);
                         }
-                    
+                        this.setState({loading:false})
+                        this.props.onHide()
                 });
     } catch (e) {
         alert("İşleminizi gerçekleştirilemedi, servis çağrısında hata alındı.");
@@ -72,17 +82,13 @@ export class CreateTestSuiteModal extends BasePage {
     }
 
 
-    handleModulSelect = selectedModul => {
-        this.setState({ selectedModul });
-        console.log(`Grup seçildi:`, selectedModul);
+    handleSuiteSelect = selectedSuite => {
+        this.setState({ selectedSuite });
+
       };
 
-      handleDateSelect = releaseDate => {
-        this.setState({ releaseDate });
-        console.log(`Date seçildi:`, releaseDate);
-      };
 
-      onSuiteNameChange = (e) => this.setState({ suiteName: e.target.value })
+      onSuiteNameChange = (e) => this.setState({ caseName: e.target.value })
 
       sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -94,10 +100,15 @@ export class CreateTestSuiteModal extends BasePage {
         document.getElementsByClassName("loader")[0].style.display = "block";
     }
 
+    setSuiteRelatedModul(){
+        let value=this.state.suiteList.filter(option => option.id === this.props.testCase.suiteId)
+        this.setState({selectedSuite:value});
+    }
+
 
     render() {
         var _this = this;
-        let moduls = this.state.modulList;
+        let suites = this.state.suiteList;
      
 
 
@@ -111,7 +122,7 @@ export class CreateTestSuiteModal extends BasePage {
 
                     <Modal.Header clooseButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Suite Oluştur
+                            Test Case Güncelle
                         </Modal.Title>
                     </Modal.Header>
 
@@ -121,29 +132,32 @@ export class CreateTestSuiteModal extends BasePage {
                                  
                                     <Form onSubmit={this.handleSubmit}>
                                     <Form.Group controlId="Release">
-                                    <Form.Label>Modül</Form.Label>
+                                    <Form.Label>Test Suite</Form.Label>
                                         <div>
                                             <Select
-                                            onChange={this.handleModulSelect}
-                                            options={moduls}
-                                            getOptionLabel={(moduls) => moduls['modulAdi']}
-                                            getOptionValue={(moduls) => moduls['id']}
+                                             value = {
+                                                this.state.selectedSuite
+                                             }
+                                            onChange={this.handleSuiteSelect}
+                                            options={suites}
+                                            getOptionLabel={(suites) => suites['suiteAdi']}
+                                            getOptionValue={(suites) => suites['id']}
                                             
                                                 >  
                                             </Select>
                                         </div>
                                         <br></br>                 
-                                        <Form.Label>Suite Adı</Form.Label>
+                                        <Form.Label>Test Case Adı</Form.Label>
                                         <div>
                                         <Form.Control type="text" name="releaseName" onChange={this.onSuiteNameChange} required
-                                              value={this.state.suiteName}/>
+                                              value={this.state?.caseName}/>
                                         </div>
                                     </Form.Group>
 
                                     <Form.Group>
                                     <br></br>
                                     <Button variant='success' size='md' onClick={event =>  
-                                                    {this.createTestSuite();
+                                                    {this.updateTestCase();
 
                                                     }} 
                                                     >{' '} {this.state.loading ? <Spinner
@@ -152,7 +166,7 @@ export class CreateTestSuiteModal extends BasePage {
       size="sm"
       role="status"
       aria-hidden="true"
-    /> : 'Suite Oluştur'}</Button>
+    /> : 'Güncelle'}</Button>
                                     </Form.Group>
                                 </Form>
                             </Col>
@@ -173,4 +187,4 @@ export class CreateTestSuiteModal extends BasePage {
 }
 
 
-export default CreateTestSuiteModal;
+export default UpdateTestCaseModal;

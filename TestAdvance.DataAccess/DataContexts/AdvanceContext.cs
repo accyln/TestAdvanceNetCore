@@ -24,6 +24,7 @@ namespace TestAdvance.DataAccess.DataContexts
         {
             modelBuilder.Entity<TestResultDto>().ToView("TestCaseResultsView").HasKey(t => t.TestRunId);
             modelBuilder.Entity<TestCaseDetailModelDto>().ToView("TestCaseSenaryoView");
+            modelBuilder.Entity<TestResultDashboardDto>().ToView("TestCaseResultDashboardView").HasNoKey();
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
@@ -36,5 +37,6 @@ namespace TestAdvance.DataAccess.DataContexts
         public DbSet<TestCaseDetailModelDto> TestCaseDetails { get; set; }
         public DbSet<SenaryoKeywordRlDto> SenaryoKeywords { get; set; }
         public DbSet<Keyword> Keywords { get; set; }
+        public DbSet<TestResultDashboardDto> TestResultDashboard { get; set; }
     }
 }

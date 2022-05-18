@@ -5,18 +5,17 @@ import LoadingOverlay from 'react-loading-overlay';
 import {BasePage} from '../base/basepage';
 
 
-export class CreateTestSuiteModal extends BasePage {
+export class CreateTestCaseModal extends BasePage {
 
     constructor(props) {
         super(props);
         this.connect(['authReducers']);
         this.state = {
             ...this.state,
-            modulList : [],
-            selectedModul: null,
-            selectedOrtam: null,
+            suiteList : [],
+            selectedSuite: null,
             loading:false,
-            suiteName:""
+            caseName:""
         };
 
 
@@ -24,16 +23,15 @@ export class CreateTestSuiteModal extends BasePage {
 
 
     componentDidMount() {
-    this.getModulList();
+    this.getTestSuiteList();
     
     }
 
     
-    getModulList() {
-        debugger;
-        this.GetSecureBase('api/Modul/GetAllModules', this.state?.userInfo?.token)
+    getTestSuiteList() {
+        this.GetSecureBase('api/TestSuite/GetAllTestSuites',this.state?.userInfo?.token)
         .then(data => {
-          this.setState({ ...this.state, modulList: data });
+          this.setState({ ...this.state, suiteList: data.result });
     
     
         });
@@ -41,23 +39,32 @@ export class CreateTestSuiteModal extends BasePage {
 
     handleHide = () => this.setState({ runModalShow: false });
 
-    createTestSuite = async ()=>{
+    createTestCase = async ()=>{
         try{
         this.setState({loading:true})
         let requestdata={
-            suiteAdi:this.state.suiteName,
-            modulId:this.state.selectedModul.id,
+            testCaseAdi:this.state.caseName,
+            suiteId:this.state.selectedSuite.id,
+            senaryoId:1,
             isActive:1,
             createdDate:new Date(Date.now()),
-            createdBy:this.state?.userInfo?.name+" "+this.state?.userInfo?.surName//TODO usera göre düzenlenecek
+            createdBy:this.state?.userInfo?.name+" "+this.state?.userInfo?.surName //TODO usera göre düzenlenecek
         }
 
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(requestdata)
+        }; 
 
-            this.PostSecureBase('api/TestSuite/InsertTestSuite',requestdata,this.state?.userInfo?.token)
+            this.PostSecureBase('api/TestCase/InsertTestCase',requestdata,this.state?.userInfo?.token)
             .then(
                 data => {
                     if (data) {
-                        alert("Suite oluşturma  başarılı.");
+                        alert("Test Case oluşturma  başarılı.");
                 this.setState({suiteName:"",selectedModul:"",loading:false})
                 this.props.onHide()
                         } else {
@@ -72,17 +79,12 @@ export class CreateTestSuiteModal extends BasePage {
     }
 
 
-    handleModulSelect = selectedModul => {
-        this.setState({ selectedModul });
-        console.log(`Grup seçildi:`, selectedModul);
+    handleSuiteSelect = selectedSuite => {
+        this.setState({ selectedSuite });
+        console.log(`Suite seçildi:`, selectedSuite);
       };
 
-      handleDateSelect = releaseDate => {
-        this.setState({ releaseDate });
-        console.log(`Date seçildi:`, releaseDate);
-      };
-
-      onSuiteNameChange = (e) => this.setState({ suiteName: e.target.value })
+      onCaseNameChange = (e) => this.setState({ caseName: e.target.value })
 
       sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -97,7 +99,7 @@ export class CreateTestSuiteModal extends BasePage {
 
     render() {
         var _this = this;
-        let moduls = this.state.modulList;
+        let suiteList = this.state.suiteList;
      
 
 
@@ -111,7 +113,7 @@ export class CreateTestSuiteModal extends BasePage {
 
                     <Modal.Header clooseButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Suite Oluştur
+                            Test Case Oluştur
                         </Modal.Title>
                     </Modal.Header>
 
@@ -121,29 +123,29 @@ export class CreateTestSuiteModal extends BasePage {
                                  
                                     <Form onSubmit={this.handleSubmit}>
                                     <Form.Group controlId="Release">
-                                    <Form.Label>Modül</Form.Label>
+                                    <Form.Label>Suite</Form.Label>
                                         <div>
                                             <Select
-                                            onChange={this.handleModulSelect}
-                                            options={moduls}
-                                            getOptionLabel={(moduls) => moduls['modulAdi']}
-                                            getOptionValue={(moduls) => moduls['id']}
+                                            onChange={this.handleSuiteSelect}
+                                            options={suiteList}
+                                            getOptionLabel={(suiteList) => suiteList['suiteAdi']}
+                                            getOptionValue={(suiteList) => suiteList['id']}
                                             
                                                 >  
                                             </Select>
                                         </div>
                                         <br></br>                 
-                                        <Form.Label>Suite Adı</Form.Label>
+                                        <Form.Label>Test Case Adı</Form.Label>
                                         <div>
-                                        <Form.Control type="text" name="releaseName" onChange={this.onSuiteNameChange} required
-                                              value={this.state.suiteName}/>
+                                        <Form.Control type="text" name="releaseName" onChange={this.onCaseNameChange} required
+                                              value={this.state.caseName}/>
                                         </div>
                                     </Form.Group>
 
                                     <Form.Group>
                                     <br></br>
                                     <Button variant='success' size='md' onClick={event =>  
-                                                    {this.createTestSuite();
+                                                    {this.createTestCase();
 
                                                     }} 
                                                     >{' '} {this.state.loading ? <Spinner
@@ -152,7 +154,7 @@ export class CreateTestSuiteModal extends BasePage {
       size="sm"
       role="status"
       aria-hidden="true"
-    /> : 'Suite Oluştur'}</Button>
+    /> : 'Test Case Oluştur'}</Button>
                                     </Form.Group>
                                 </Form>
                             </Col>
@@ -173,4 +175,4 @@ export class CreateTestSuiteModal extends BasePage {
 }
 
 
-export default CreateTestSuiteModal;
+export default CreateTestCaseModal;

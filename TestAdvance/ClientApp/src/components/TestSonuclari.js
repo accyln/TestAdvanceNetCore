@@ -10,6 +10,7 @@ class TestSonuclari extends BasePage {
 
     constructor(props) {
         super(props);
+        this.connect(['authReducers']);
         this.state = {
             ...this.state,
             before: {},
@@ -74,7 +75,7 @@ class TestSonuclari extends BasePage {
     //   }
    
     getApiList() {
-        fetch('api/TestRun/GetTestResults').then(response=>response.json())
+        this.GetSecureBase('api/TestRun/GetTestResults',this.state?.userInfo?.token)
             .then(
                 data => {
                     if (data) {
@@ -153,15 +154,7 @@ class TestSonuclari extends BasePage {
                             </Col>
                             <Col style={{ marginRight:50}}>
                             </Col>
-                            {" "}
-                            <Col style={{ float: 'right', display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button variant="info" type="submit" onClick={() => {
-                                var url = "/ModulDetay"
-                                _this.props.history.push(url);
-                                }} /* style={{ float: 'right' }} */>
-                                    Modül İşlemleri
-                        </Button></Col>
-                        <input type="submit" value="Submit" class="btn btn-sm btn-outline-primary py-0" onClick={()=>this.setState({alertShow:true}) } style={{fontSize:"0.6em"}}></input>
+                            
                         </Row>
             <Row style={{marginTop:10}}>
               <Col lg="12">

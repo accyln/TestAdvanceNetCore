@@ -14,7 +14,7 @@ namespace TestAdvance.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SenaryoController : ControllerBase
+    public class SenaryoController : AuthenticatedBaseController
     {
         private readonly ILogger<SenaryoController> _logger;
         private readonly IMapper _mapper;
@@ -66,7 +66,7 @@ namespace TestAdvance.Controllers
         {
 
             var testCase = await _advanceContext.TestCases.FirstOrDefaultAsync(a => a.Id == testCaseId);
-            var senaryo = await _advanceContext.SenaryoKeywords.Where(a => a.SenaryoId == testCase.SenaryoId).ToListAsync();
+            var senaryo = await _advanceContext.SenaryoKeywords.Where(a => a.SenaryoId == testCase.Id).ToListAsync();
             if (senaryo != null)
             {
                 foreach (var item in senaryo)
@@ -74,16 +74,19 @@ namespace TestAdvance.Controllers
                     _advanceContext.Remove(item);
                     _advanceContext.SaveChanges();
                 }
-            }
 
             return Ok(senaryo);
+            } else
+            {
+                return Conflict();
+            }
         }
 
         [HttpPost]
         [Route("AddSenaryoSteps")]
         public async Task<IActionResult> AddSenaryoSteps(SenaryoKeywordRlAddDto senaryoKeywordRlAddDto)
         {
-
+            try {
             SenaryoKeywordRlDto senaryoKeyword = new SenaryoKeywordRlDto()
             {
                 SenaryoId = senaryoKeywordRlAddDto.SenaryoId,
@@ -98,34 +101,39 @@ namespace TestAdvance.Controllers
             _advanceContext.SenaryoKeywords.Add(senaryoKeyword);
             _advanceContext.SaveChanges();
 
-            return Ok();
-        }
-
-
-        [HttpPost]
-        [Route("AddSenaryoSteps")]
-        public async Task<IActionResult> AddSenaryoSteps(List<SenaryoKeywordRlAddDto> senaryoKeywordRlAddDto)
-        {
-            foreach (var item in senaryoKeywordRlAddDto)
+            return Ok(senaryoKeyword);
+        }catch(Exception ex)
             {
-                SenaryoKeywordRlDto senaryoKeyword = new SenaryoKeywordRlDto()
-                {
-                    SenaryoId = item.SenaryoId,
-                    KeywordId = item.KeywordId,
-                    OrderId = item.OrderId,
-                    CreatedDate = item.CreatedDate,
-                    CreatedBy = item.CreatedBy
-                };
+                _logger.LogError("AddSenaryoStepsError", ex);
+                throw ex;
+            }
+    }
+
+
+        //[HttpPost]
+        //[Route("AddSenaryoSteps")]
+        //public async Task<IActionResult> AddSenaryoSteps(List<SenaryoKeywordRlAddDto> senaryoKeywordRlAddDto)
+        //{
+        //    foreach (var item in senaryoKeywordRlAddDto)
+        //    {
+        //        SenaryoKeywordRlDto senaryoKeyword = new SenaryoKeywordRlDto()
+        //        {
+        //            SenaryoId = item.SenaryoId,
+        //            KeywordId = item.KeywordId,
+        //            OrderId = item.OrderId,
+        //            CreatedDate = item.CreatedDate,
+        //            CreatedBy = item.CreatedBy
+        //        };
 
 
 
-            _advanceContext.SenaryoKeywords.Add(senaryoKeyword);
-            _advanceContext.SaveChanges();
+        //    _advanceContext.SenaryoKeywords.Add(senaryoKeyword);
+        //    _advanceContext.SaveChanges();
 
-        }
+        //}
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
 
 

@@ -7,13 +7,14 @@ import { ProSidebar, Menu, MenuItem, SubMenu,SidebarHeader, SidebarContent,Sideb
 import {Nav} from 'react-bootstrap';
 import 'react-pro-sidebar/dist/css/styles.css';
 import TestSenaryolari from './TestSenaryolari';
+import { BasePage } from './base/basepage';
 
-export class NavMenu extends Component {
+export class NavMenu extends BasePage {
   static displayName = NavMenu.name;
 
   constructor (props) {
     super(props);
-
+    this.connect(['authReducers']);
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       collapsed: true
@@ -35,7 +36,7 @@ export class NavMenu extends Component {
 
             <Row style={{width:2295}}>
               <Col>
-            <div style={{width:250}}>
+            <div style={{width:250,marginTop:20}}>
               <span class="white" style={{ marginLeft:30,marginTop:20,
             padding: "24px",
             textTransform: "uppercase",
@@ -62,7 +63,7 @@ export class NavMenu extends Component {
               marginBottom:10,
               marginTop:15,
               float:"right"
-            }}><span>{"_this.state?.userInfo?.name"}</span></div></Col>
+            }}><span>{this.state?.userInfo?.name ? (this.state?.userInfo?.name+" "+this.state?.userInfo?.surName):"Giriş yapınız"}</span></div></Col>
           </Row>
           
         </nav>
@@ -92,8 +93,7 @@ export class NavMenu extends Component {
     <MenuItem>Dashboard<Link to="/" /></MenuItem>
     <MenuItem>Test Koşum Sonuçları<Link to="/TestSonuclari" /></MenuItem>
     <MenuItem>Test Senaryoları<Link to="/TestCaseList" /></MenuItem>
-    <MenuItem>Senaryo Oluştur<Link to="/TestSenaryolari" /></MenuItem>
-    <MenuItem>Modüller<Link to="/ModulDetay" /></MenuItem>
+    <MenuItem>Modüller<Link to="/ModulList" /></MenuItem>
     <MenuItem>Test Suiteler<Link to="/TestSuiteList" /></MenuItem>
   </Menu>
   </div>

@@ -10,21 +10,20 @@ export function PostSecure(action,body,token)
      if(!token)
      {
         header = {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
          };
      }
-     
    return fetch(getApiUrl() + action, {
     method: 'POST',
     headers: header,
-    body:JSON.stringify(body),
+    body: JSON.stringify(body)
 });
 }
 
 
 export async function GetSecure(action,token) {
     try{
-      debugger;
       var header = {
         'Content-Type': 'application/json',
         'Authorization': token ? 'Bearer ' + token : '',
@@ -34,10 +33,13 @@ export async function GetSecure(action,token) {
      {
         header = {
             'Content-Type': 'application/json',
+            'Accept': 'application/json'
          };
      }
-     debugger;
-      return await fetch(getApiUrl() + action);
+      return await fetch(getApiUrl() + action, {
+        method: 'GET',
+        headers: header
+    });
     }
     catch(err) {
       throw err;

@@ -4,6 +4,7 @@ import {useHistory } from 'react-router';
 import LoadingOverlay from 'react-loading-overlay';
 import {singIn} from '../../redux/actions/authAction';
 import {PostSecure} from '../../components/base/Server';
+import { useAdvanceLayerValue } from '../../context/advanceContext';
 
 
 export function Login(){
@@ -13,11 +14,12 @@ const [password,setpassword]=useState("");
 const [loading,setloading]=useState(false);
 
 const history=useHistory();
+const [{isAuth},dispatch] =useAdvanceLayerValue();
 
-/* useEffect(() => {
+useEffect(() => {
+console.log(isAuth)
 
-
-  },[]) */
+  },[isAuth]) 
 
 
 function userNameChange (e){ setUserName(e.target.value)}
@@ -74,7 +76,10 @@ return(
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",color:"#adadad"
-          }}><h4>TEST ADVANCE</h4></span></center></div>
+          }}><h4>SAKARYA ÜNİVERSİTESİ</h4>
+          <h4>BİLGİ TEKNOLOJİLERİ BÖLÜMÜ</h4>
+          <h4>YÜKSEK LİSANS PROJESİ</h4>
+          <h4>TEST OTOMASYON YÖNETİMİ UYGULAMASI</h4></span></center></div>
                 <Card style={{border:"1px solid"}}>
                     <Card.Body>
                     

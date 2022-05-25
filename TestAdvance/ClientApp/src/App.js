@@ -44,12 +44,13 @@ export default class App extends BasePage {
 
   render () {
     return (
-      <div>      {
+
+      <div><Layout>      {
           
         this.state?.userInfo?.token && this.state.isAuth ? 
       (
       
-      <Layout>
+      
       <div>
         
         <Route exact path="/">
@@ -71,9 +72,9 @@ export default class App extends BasePage {
         
         </div>
       
-      </Layout>
+
       ) : (<Login/>)
-    }</div>  
+    }</Layout></div>  
     );
   }
 }

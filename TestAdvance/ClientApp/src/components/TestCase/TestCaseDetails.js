@@ -186,14 +186,14 @@ class TestCaseDetails extends BasePage {
           {" "}
           {this.state.loadingTestCase == true ? <this.overlayDiv /> : ""}
           <Card className="mb-4" style={{borderColor:"grey"}}>
-            <Card.Header style={{backgroundColor:"lightslategray"}}><h5 style={{color:"white"}}>Test Case Info</h5></Card.Header>
+            <Card.Header style={{backgroundColor:"lightslategray"}}><h5 style={{color:"white"}}>Test Durum Bilgi</h5></Card.Header>
             <Card.Body>
               <div style={{ margin: 10 }}>
                 <Row>
                   <Col sm={4}>
                     <Form>
                       <Form.Group controlId="CaseDetails">
-                        <Form.Label>Case Id</Form.Label>
+                        <Form.Label>Test Durum Id</Form.Label>
 
                         <Form.Control
                           type="text"
@@ -204,7 +204,7 @@ class TestCaseDetails extends BasePage {
 
                         <br></br>
 
-                        <Form.Label>Case Adı</Form.Label>
+                        <Form.Label>Test Durum Adı</Form.Label>
                         <Form.Control
                           type="text"
                           name="changeId"
@@ -234,7 +234,7 @@ class TestCaseDetails extends BasePage {
                     </Form>
                   </Col>
                   <Col sm={4}>
-                    <Form.Label>Related Test Suite</Form.Label>
+                    <Form.Label>İlişkili Test Suite</Form.Label>
                     <Form.Control
                       type="text"
                       name="TargetProject"
@@ -247,7 +247,7 @@ class TestCaseDetails extends BasePage {
 
                     <br></br>
 
-                    <Form.Label>Status</Form.Label>
+                    <Form.Label>Durum</Form.Label>
                     <br></br>
                     {this.state.testCaseDetay?.isActive ===
                     1 ? (
@@ -296,8 +296,8 @@ class TestCaseDetails extends BasePage {
                     <KeywordComponent senaryo={item}/>
                     )}
                     )) : this.state.displayEkle==="none" ? (<div>Test case'e ait bir senaryo bulunmamaktadır.</div>) : null}
-                    <center><Button variant="success" style={{display:this.state.displayEkle}} onClick={()=>this.setState({runKeywordModalShow:true})}>Keyword Ekle</Button>{" "}
-                    <Button variant="danger" style={{display:this.state.displayEkle}} onClick={()=>this.removeTestStep(this.state.senaryo)}>Keyword Çıkar</Button>
+                    <center><Button variant="success" style={{display:this.state.displayEkle}} onClick={()=>this.setState({runKeywordModalShow:true})}>Test Adımı Ekle</Button>{" "}
+                    <Button variant="danger" style={{display:this.state.displayEkle}} onClick={()=>this.removeTestStep(this.state.senaryo)}>Test Adımı Çıkar</Button>
                     </center>
                     {this.state.lastKeyword!=={} && this.state.lastKeyword ? 
                     (<KeywordListModal show={this.state.runKeywordModalShow} handleKeywordSelect={this.handleKeywordSelect.bind(this)}

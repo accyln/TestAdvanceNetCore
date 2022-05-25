@@ -100,7 +100,7 @@ import { textSpanIntersectsWithPosition } from 'typescript';
                     <Modal.Header clooseButton>
                     <div class="container-fluid"><Row><Col sm={11}>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Keyword Listele & Seç
+                            Anahtar sözcük Listele & Seç
                         </Modal.Title>
                         </Col>
                         <Col sm={1} style={{marginLeft:'auto',marginRight:10}}><Button variant="danger" onClick={this.props.onHide}>Kapat</Button></Col>

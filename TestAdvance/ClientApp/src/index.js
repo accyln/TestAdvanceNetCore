@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import configureStore from "./redux/reducers/configureStore";
 import { Provider } from 'react-redux';
+import { AdvanceLayer } from './context/advanceContext';
+import reducer,{ initialState } from './context/reducer';
 //import registerServiceWorker from './registerServiceWorker';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
@@ -14,7 +16,7 @@ const store=configureStore();
 
 ReactDOM.render(
   <BrowserRouter basename={baseUrl}>
-    <Provider store={store}><App /></Provider>
+    <Provider store={store}><AdvanceLayer initialState={initialState} reducer={reducer}><App /></AdvanceLayer></Provider>
   </BrowserRouter>,
   rootElement);
 

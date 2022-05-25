@@ -46,7 +46,7 @@ export class NavMenu extends BasePage {
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",color:"#adadad"
-          }}>TEST ADVANCE</span></div>
+          }}>TEST OTOMASYON</span></div>
           </Col> <Col sm={6}><div className="box" style={{
               height:30,
               padding: '4px',
@@ -63,7 +63,7 @@ export class NavMenu extends BasePage {
               marginBottom:10,
               marginTop:15,
               float:"right"
-            }}><span>{this.state?.userInfo?.name ? (this.state?.userInfo?.name+" "+this.state?.userInfo?.surName):"Giriş yapınız"}</span></div></Col>
+            }}><span>{this.state?.userInfo?.name ? (this.state?.userInfo?.name+" "+this.state?.userInfo?.surName):"Giriş yapınız"}</span>{" "}<Button size="sm" variant='secondary'>Çıkış</Button></div></Col>
           </Row>
           
         </nav>
@@ -90,11 +90,11 @@ export class NavMenu extends BasePage {
   <SidebarContent >
       <div style={{height: "100vh",width:"250"}}>
   <Menu iconShape="square">
-    <MenuItem>Dashboard<Link to="/" /></MenuItem>
-    <MenuItem>Test Koşum Sonuçları<Link to="/TestSonuclari" /></MenuItem>
-    <MenuItem>Test Senaryoları<Link to="/TestCaseList" /></MenuItem>
+    <MenuItem>Anasayfa<Link to="/" /></MenuItem>
     <MenuItem>Modüller<Link to="/ModulList" /></MenuItem>
     <MenuItem>Test Suiteler<Link to="/TestSuiteList" /></MenuItem>
+    <MenuItem>Test Durumları<Link to="/TestCaseList" /></MenuItem>
+    <MenuItem>Test Koşum Sonuçları<Link to="/TestSonuclari" /></MenuItem>
   </Menu>
   </div>
   </SidebarContent>

@@ -252,11 +252,11 @@ class TestCaseDetails extends BasePage {
                     {this.state.testCaseDetay?.isActive ===
                     1 ? (
                       <span class="badge bg-success">
-                        {"Active"}
+                        {"Aktif"}
                       </span>
                     ) : this.state.testCaseDetay?.isActive===0 ? (
                       <span class="badge bg-danger">
-                        {"Passive"}
+                        {"Pasif"}
                       </span>
                     ) : <span class="badge bg-secondary">
                     N/A

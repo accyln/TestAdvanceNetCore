@@ -122,7 +122,7 @@ export class UpdateTestSuiteModal extends BasePage {
 
                     <Modal.Header clooseButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Suite Oluştur
+                           Test Suite Güncelle
                         </Modal.Title>
                     </Modal.Header>
 

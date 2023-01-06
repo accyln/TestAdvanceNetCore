@@ -132,10 +132,10 @@ import { textSpanIntersectsWithPosition } from 'typescript';
               <Table><tbody>
 
                                   <tr>
-                                      <th>Build Id</th>
-                                      <th>Build Number</th>
-                                      <th>Pipeline Name</th>
-                                      <th>User</th>
+                                      <th>Id</th>
+                                      <th>Anahtar Sözcük</th>
+                                      <th>Bulunduğu Sayfa</th>
+                                      <th>Yönlendirdiği Sayfa</th>
                                       <th></th>
                                   </tr>                                                            
               {this.state.filteredData?.map((item) => {

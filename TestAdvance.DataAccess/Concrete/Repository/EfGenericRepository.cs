@@ -60,5 +60,10 @@ namespace TestAdvance.DataAccess.Repository.Concrete
             using var context = new AdvanceContext();
             return await context.Set<T>().FirstOrDefaultAsync(filter);
         }
+
+        public Task<T> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

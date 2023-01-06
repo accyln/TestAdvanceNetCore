@@ -23,7 +23,7 @@ namespace TestAdvance.Business.Concrete
 
         public async Task<T> FindByIdAsync(int id)
         {
-            return await _genericDal.FindByIdAsync(id);
+            return await _genericDal.GetByIdAsync(id);
         }
 
         public async Task<List<T>> GetAllAsync()
